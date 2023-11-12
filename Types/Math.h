@@ -19,10 +19,3 @@ using SMat4 = TMat<float, 4, 4>;
 
 using SColor = SVec3;
 
-inline auto Normalize(const SVec3 &Vec) {
-    return boost::qvm::normalized(Vec);
-}
-
-inline auto Lerp(float T, const SVec3 &A, const SVec3 &B) {
-    return (1.0f - T) * A + T * B;
-}

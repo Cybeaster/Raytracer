@@ -21,7 +21,7 @@ private:
 
     void Render();
 
-    float ImageWidth = 400;
+    float ImageWidth = 800;
     float ImageHeight = -1;
 
     float ViewportWidth = 2;

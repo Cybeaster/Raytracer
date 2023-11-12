@@ -2,6 +2,7 @@
 
 #include "../Types/Math.h"
 #include "../Ray/ORay.h"
+#include "Math.h"
 #include <ostream>
 
 namespace Utils {
@@ -13,6 +14,10 @@ namespace Utils {
     }
 
     SColor GetColorAt(const ORay &Ray) {
+        if (SphereIntersection(SVec3{0, 0, -1}, 0.5f, Ray)) {
+            return SColor{1.0f, 0.0f, 0.0f};
+        }
+
         SVec3 unitDir = Normalize(Ray.GetDirection());
         auto t = 0.5f * (unitDir.a[1] + 1.0f);
         return Lerp(t, SColor{1.0f, 1.0f, 1.0f}, SColor{0.5f, 0.7f, 1.0f});
