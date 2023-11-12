@@ -1,0 +1,12 @@
+{
+  "name" : "raytracer",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "61f610845fb206298a69f708104a51d651872877",
+  "dependencies" : [ {
+    "name" : "boost-qvm",
+    "version>=" : "1.83.0"
+  }, {
+    "name" : "boost-algorithm",
+    "version>=" : "1.83.0"
+  } ]
+}
