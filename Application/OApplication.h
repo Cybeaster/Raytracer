@@ -6,36 +6,39 @@
 #define RAYTRACER_OAPPLICATION_H
 
 
+#include "../Types/HittableList.h"
+
 #include <cstdint>
 #include "../Types/Math.h"
 #include "Camera/Camera.h"
 
-class OApplication {
+class OApplication
+{
 public:
-    OApplication();
-
+	OApplication();
 
 private:
+	void Init();
 
-    void Init();
+	void Render();
 
-    void Render();
+	int ImageWidth = 800;
+	int ImageHeight = -1;
 
-    float ImageWidth = 800;
-    float ImageHeight = -1;
+	float ViewportWidth = 2;
+	float ViewportHeight = 1;
 
-    float ViewportWidth = 2;
-    float ViewportHeight = 1;
+	SVec3 ViewportUpperLeft;
+	SVec3 PixelZeroLoc;
 
-    SVec3 ViewportUpperLeft;
-    SVec3 PixelZeroLoc;
+	SVec3 PixelDeltaU;
+	SVec3 PixelDeltaV;
 
-    SVec3 PixelDeltaU;
-    SVec3 PixelDeltaV;
+	double AspectRatio = 16.0 / 9.0;
 
-    double AspectRatio = 16.0f / 9.0f;
+	OCamera Camera;
 
-    OCamera Camera;
+	OHittableList World;
 };
 
 

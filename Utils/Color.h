@@ -1,25 +1,32 @@
 #pragma once
-
-#include "../Types/Math.h"
+#include "../Types/Hittable.h"
 #include "../Ray/ORay.h"
+#include "../Types/Color.h"
+#include "../Types/Math.h"
 #include "Math.h"
 #include <ostream>
 
-namespace Utils {
 
-    void WriteColor(std::ostream &Out, const SColor &Color) {
-        Out << static_cast<int>(255.999f * Color.a[0]) << ' '
-            << static_cast<int>(255.999f * Color.a[1]) << ' '
-            << static_cast<int>(255.999f * Color.a[2]) << '\n';
-    }
+class IHittable;
 
-    SColor GetColorAt(const ORay &Ray) {
-        if (SphereIntersection(SVec3{0, 0, -1}, 0.5f, Ray)) {
-            return SColor{1.0f, 0.0f, 0.0f};
-        }
+namespace Utils
+{
+inline void WriteColor(std::ostream& Out, const SColor& Color)
+{
+	Out << static_cast<int>(255.999f * Color.R) << ' '
+		<< static_cast<int>(255.999f * Color.G) << ' '
+		<< static_cast<int>(255.999f * Color.B) << '\n';
+}
 
-        SVec3 unitDir = Normalize(Ray.GetDirection());
-        auto t = 0.5f * (unitDir.a[1] + 1.0f);
-        return Lerp(t, SColor{1.0f, 1.0f, 1.0f}, SColor{0.5f, 0.7f, 1.0f});
-    }
+inline SColor GetColorAt(const ORay& Ray, const IHittable& World)
+{
+	using namespace Math;
+	if (SHitRecord hitRecord; World.Hit(Ray, 0, Infinity, hitRecord))
+	{
+		return 0.5 * (hitRecord.Normal + SVec3{ 1, 1, 1 });
+	}
+	auto [a] = Normalize(Ray.GetDirection());
+	auto res = 0.5f * (a[1] + 1.0f);
+	return Lerp(res, SColor{ 1.0f, 1.0f, 1.0f }, SColor{ 0.5f, 0.7f, 1.0f });
+}
 } // namespace Utils
