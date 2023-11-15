@@ -17,6 +17,14 @@ struct SColor
 	{
 	}
 
+	SColor(float r, float g, float b, float a)
+		: R(r)
+		, G(g)
+		, B(b)
+		, A(a)
+	{
+	}
+
 	SColor(const SColor&) = default;
 
 	SColor(const SVec3& Other)
@@ -27,6 +35,25 @@ struct SColor
 		A = 1.0f;
 	}
 
+	template<typename T>
+	SColor operator *(T Value)
+	{
+		SColor color;
+		color.R = R * Value;
+		color.G = G * Value;
+		color.B = B * Value;
+		color.A = A * Value;
+		return color;
+	}
+
+	template<typename T>
+	void operator *=(T Value)
+	{
+		R *= Value;
+		G *= Value;
+		B *= Value;
+		A *= Value;
+	}
 
 	operator SVec3() const
 	{
@@ -37,6 +64,20 @@ struct SColor
 	{
 		return SVec4{ R, G, B, A };
 	}
+
+	SColor operator+(const SColor& Other) const
+	{
+		return SColor{ R + Other.R, G + Other.G, B + Other.B, A + Other.A };
+	}
+
+	void operator+=(const SColor& Other)
+	{
+		R += Other.R;
+		G += Other.G;
+		B += Other.B;
+		A += Other.A;
+	}
+
 
 	SColor operator*(float Value) const
 	{

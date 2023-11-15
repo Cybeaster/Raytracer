@@ -22,20 +22,6 @@ private:
 
 	void Render();
 
-	int ImageWidth = 800;
-	int ImageHeight = -1;
-
-	float ViewportWidth = 2;
-	float ViewportHeight = 1;
-
-	SVec3 ViewportUpperLeft;
-	SVec3 PixelZeroLoc;
-
-	SVec3 PixelDeltaU;
-	SVec3 PixelDeltaV;
-
-	double AspectRatio = 16.0 / 9.0;
-
 	OCamera Camera;
 
 	OHittableList World;

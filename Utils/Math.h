@@ -1,12 +1,11 @@
 #pragma once
 
 #include "../Types/Math.h"
-#include "../Ray/ORay.h"
+#include "../Ray/SRay.h"
+
+#include <random>
 
 // Constants
-const float Infinity = std::numeric_limits<float>::infinity();
-constexpr float PI = 3.1415926535897932385;
-
 namespace Utils { namespace Math
 	{
 	inline auto Lerp(float T, const SVec3& A, const SVec3& B)
@@ -39,6 +38,18 @@ namespace Utils { namespace Math
 		return abs(1.0f - Magnitude(A)) < Epsilon; // Return true if the vector is normalized
 	}
 
+	inline auto RandomDouble()
+	{
+		static std::uniform_real_distribution<double> Distribution(0.0, 1.0); // Random double distribution
+		static std::mt19937 Generator; // Random number generator
+		return Distribution(Generator); // Return a random double between 0 and 1
+	}
+
+	inline auto RandomDouble(float Min, float Max)
+	{
+		return Min + (Max - Min) * RandomDouble(); // Return a random double between Min and Max
+	}
+
 	template<typename T>
 	auto Squared(T Value)
 	{
@@ -52,7 +63,7 @@ namespace Utils { namespace Math
 	}
 
 
-	inline auto SphereIntersection(const SVec3& Center, float Radius, const ORay& Ray)
+	inline auto SphereIntersection(const SVec3& Center, float Radius, const SRay& Ray)
 	{
 		using namespace Math;
 		auto oc = Ray.GetOrigin() - Center; // Vector from sphere center to ray origin

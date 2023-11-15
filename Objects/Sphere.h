@@ -3,7 +3,7 @@
 #include "../Types/Math.h"
 
 struct SHitRecord;
-struct ORay;
+class SRay;
 
 class OSphere : public IHittable
 {
@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	bool Hit(const ORay& Ray, float TMin, float TMax, SHitRecord& OutHitRecord) const;
+	bool Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord) const override;
 
 private:
 	SVec3 Center;

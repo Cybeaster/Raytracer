@@ -2,14 +2,14 @@
 
 #include "../Types/Math.h"
 
-class ORay
+class SRay
 {
 public:
-	ORay() = default;
+	SRay() = default;
 
-	ORay(const ORay&) = default;
+	SRay(const SRay&) = default;
 
-	ORay(const SVec3& Origin, const SVec3& Dir)
+	SRay(const SVec3& Origin, const SVec3& Dir)
 		: Origin(Origin)
 		, Direction(Dir)
 	{

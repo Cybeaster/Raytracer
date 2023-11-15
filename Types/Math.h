@@ -16,3 +16,5 @@ using SVec4 = TVec<float, 4>;
 
 using SOMat3 = TMat<float, 3, 3>;
 using SMat4 = TMat<float, 4, 4>;
+
+constexpr float PI = 3.1415926535897932385;
