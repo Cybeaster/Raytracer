@@ -1,6 +1,6 @@
 #include "Sphere.h"
-#include "../Ray/SRay.h"
-#include "../Types/Hittable.h"
+#include "SRay.h"
+#include "Hittable.h"
 
 bool OSphere::Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord) const
 {
@@ -24,7 +24,7 @@ bool OSphere::Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord)
 	if (!Interval.Contains(root, false))
 	{
 		root = (-halfB + sqrtd) / a;
-		if (Interval.Contains(root, false))
+		if (!Interval.Contains(root, false))
 		{
 			return false;
 		}

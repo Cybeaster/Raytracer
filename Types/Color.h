@@ -35,8 +35,8 @@ struct SColor
 		A = 1.0f;
 	}
 
-	template<typename T>
-	SColor operator *(T Value)
+
+	SColor operator *(const float& Value) const
 	{
 		SColor color;
 		color.R = R * Value;
@@ -44,6 +44,11 @@ struct SColor
 		color.B = B * Value;
 		color.A = A * Value;
 		return color;
+	}
+
+	SColor operator*(const SColor& Other) const
+	{
+		return SColor{ R * Other.R, G * Other.G, B * Other.B, A * Other.A };
 	}
 
 	template<typename T>

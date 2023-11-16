@@ -6,6 +6,8 @@
 
 #include "Camera.h"
 
+#include "../../Objects/Materials/Material.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -25,7 +27,7 @@ void OCamera::Render(const IHittable& World)
 			for (int32_t sample = 0; sample < SamplesPerPixel; ++sample)
 			{
 				SRay ray = GetRay(i, j);
-				pixelColor += RayColor(ray, World);
+				pixelColor += RayColor(ray, World, MaxDepth);
 			}
 			Draw(OutFile, pixelColor);
 		}
@@ -42,7 +44,7 @@ void OCamera::Init()
 	ViewportWidth = (static_cast<double>(ImageWidth) / ImageHeight) * ViewportHeight;
 
 	const auto viewportU = SVec3{ ViewportWidth, 0, 0 };
-	const auto viewportV = SVec3{ 0, ViewportHeight, 0 };
+	const auto viewportV = SVec3{ 0, -ViewportHeight, 0 };
 
 	PixelDeltaU = viewportU / ImageWidth;
 	PixelDeltaV = viewportV / ImageHeight;
@@ -65,13 +67,26 @@ SRay OCamera::GetRay(float U, float V) const
 	return SRay{ rayOrigin, rayDir };
 }
 
-SColor OCamera::RayColor(const SRay& Ray, const IHittable& World)
+SColor OCamera::RayColor(const SRay& Ray, const IHittable& World, uint32_t Depth)
 {
 	using namespace Utils::Math;
-	if (SHitRecord hitRecord; World.Hit(Ray, { 0, INFINITY }, hitRecord))
+
+	if (Depth == 0)
 	{
-		return 0.5 * (hitRecord.Normal + SVec3{ 1, 1, 1 });
+		return SColor{ 0, 0, 0 };
 	}
+
+	if (SHitRecord hitRecord; World.Hit(Ray, { 0.001, INFINITY }, hitRecord))
+	{
+		SRay scattered;
+		SColor attenuation;
+		if (hitRecord.Material->Scatter(Ray, hitRecord, attenuation, scattered))
+		{
+			return RayColor(scattered, World, Depth - 1) * attenuation;
+		}
+		return SColor{ 0, 0, 0 };
+	}
+
 	auto [a] = Normalize(Ray.GetDirection());
 	auto res = 0.5f * (a[1] + 1.0f);
 	return Lerp(res, SColor{ 1.0f, 1.0f, 1.0f }, SColor{ 0.5f, 0.7f, 1.0f });
@@ -88,7 +103,7 @@ SVec3 OCamera::PixelSampleSquare() const
 void OCamera::Draw(std::ostream& Out, SColor Color)
 {
 	Color *= 1.f / SamplesPerPixel;
-
+	Color = Utils::Math::LinearToGamma(Color);
 	static const SInterval intensity(0.0, 0.999);
 
 	Out << static_cast<int>(256 * intensity.Clamp(Color.R)) << ' '

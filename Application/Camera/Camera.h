@@ -12,7 +12,7 @@ public:
 
 	void Init();
 	SRay GetRay(float U, float V) const;
-	SColor RayColor(const SRay& Ray, const class IHittable& World);
+	SColor RayColor(const SRay& Ray, const class IHittable& World, uint32_t Depth);
 
 	auto GetFocalLength() const
 	{
@@ -34,11 +34,13 @@ private:
 	SVec3 CameraCenter = { 0, 0, 0 };
 
 	int32_t ImageWidth = 800;
-	int32_t ImageHeight = -1;
+	int32_t ImageHeight = 1;
 
 	float ViewportWidth = 2;
 	float ViewportHeight = 1;
 
+	// Maximum number of ray bounces into scene
+	uint32_t MaxDepth = 10;
 
 	SVec3 ViewportUpperLeft{};
 	SVec3 PixelZeroLoc{};
@@ -46,7 +48,8 @@ private:
 	SVec3 PixelDeltaU{};
 	SVec3 PixelDeltaV{};
 
-	int32_t SamplesPerPixel = 100;
+	// Count of random samples for each pixel
+	int32_t SamplesPerPixel = 10;
 
 	double AspectRatio = 16.0 / 9.0;
 };

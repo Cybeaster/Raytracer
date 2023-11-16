@@ -1,18 +1,19 @@
 #pragma once
-#include "Interval/Interval.h"
-#include "Math.h"
+#include "../Types/Interval/Interval.h"
+#include "../Types/Math.h"
 #include "../Utils/Math.h"
 #include "../Utils/Exceptions.h"
 
+#include <memory>
+
 
 class SRay;
-
+class IMaterial;
 
 struct SHitRecord
 {
 	void SetFaceNormal(const SRay& Ray, const SVec3& OutwardNormal)
 	{
-		ENSURE(Utils::Math::IsNormalized(OutwardNormal));
 		FrontFace = Utils::Math::Dot(Ray.GetDirection(), OutwardNormal) < 0;
 		Normal = FrontFace ? OutwardNormal : -OutwardNormal;
 	}
@@ -22,6 +23,7 @@ struct SHitRecord
 	SVec3 Normal;
 	double T;
 	bool FrontFace;
+	std::shared_ptr<IMaterial> Material;
 };
 
 class IHittable
