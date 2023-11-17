@@ -40,7 +40,7 @@ private:
 	float ViewportHeight = 1;
 
 	// Maximum number of ray bounces into scene
-	uint32_t MaxDepth = 10;
+	uint32_t MaxDepth = 100;
 
 	SVec3 ViewportUpperLeft{};
 	SVec3 PixelZeroLoc{};

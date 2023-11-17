@@ -15,6 +15,7 @@ OApplication::OApplication()
 
 void OApplication::AddSphere(const SVec3& Position, float Radius, std::shared_ptr<IMaterial> Material)
 {
+	ENSURE(Material != nullptr);
 	World.Add(make_shared<OSphere>(Position, Radius, Material));
 }
 
@@ -26,7 +27,6 @@ void OApplication::Init()
 	auto right = CreateMaterial<OMetal>(SColor(0.8, 0.6, 0.2));
 
 	AddSphere(SVec3{ 0.0, -100.5, -1.0 }, 100.0, ground);
-
 	AddSphere(SVec3{ 0.0, 0.0, -1.0 }, 0.5, center);
 	AddSphere(SVec3{ -1.0, 0.0, -1.0 }, 0.5, left);
 	AddSphere(SVec3{ 1.0, 0.0, -1.0 }, 0.5, right);

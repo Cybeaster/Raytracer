@@ -6,6 +6,7 @@ bool OSphere::Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord)
 {
 	using namespace Utils::Math;
 
+	/*Find intersection points*/
 	auto oc = Ray.GetOrigin() - Center;
 	auto a = LengthSquared(Ray.GetDirection());
 	auto halfB = Dot(oc, Ray.GetDirection());
@@ -35,6 +36,6 @@ bool OSphere::Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord)
 	OutHitRecord.Point = Ray.PointAtParameter(OutHitRecord.T);
 	const auto outwardNormal = (OutHitRecord.Point - Center) / Radius;
 	OutHitRecord.SetFaceNormal(Ray, outwardNormal);
-
+	OutHitRecord.Material = Material;
 	return true;
 }

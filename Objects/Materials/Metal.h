@@ -14,6 +14,7 @@ public:
 
 	bool Scatter(const SRay& Ray, const SHitRecord& HitRecord, SColor& OutAttenuation, SRay& OutScattered) const override
 	{
+		/*Fully reflect the ray and return the albedo*/
 		SVec3 reflected = Utils::Math::Reflect(Utils::Math::Normalize(Ray.GetDirection()), HitRecord.Normal);
 		OutScattered = SRay(HitRecord.Point, reflected);
 		OutAttenuation = Albedo;
