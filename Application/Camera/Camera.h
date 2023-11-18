@@ -25,16 +25,20 @@ public:
 	}
 
 
-	inline SVec3 PixelSampleSquare() const;
+	SVec3 PixelSampleSquare() const;
+	SVec3 DefocusDiskSample() const;
 
 private:
 	void Draw(std::ostream& Out, SColor Color);
 
+public:
 	float FocalLength = 0.5f;
 	SVec3 CameraCenter = { 0, 0, 0 };
 
+	//View parameters
 	int32_t ImageWidth = 800;
 	int32_t ImageHeight = 1;
+	double AspectRatio = 16.0 / 9.0;
 
 	float ViewportWidth = 2;
 	float ViewportHeight = 1;
@@ -45,13 +49,27 @@ private:
 	SVec3 ViewportUpperLeft{};
 	SVec3 PixelZeroLoc{};
 
+	//Delta vectors for each pixel
 	SVec3 PixelDeltaU{};
 	SVec3 PixelDeltaV{};
 
-	// Count of random samples for each pixel
-	int32_t SamplesPerPixel = 10;
+	SVec3 CameraV = {}, CameraU = {}, CameraW = {}; // Camera coordinate system
+	SVec3 DefocusDiskU{};
+	SVec3 DefocusDiskV{};
 
-	double AspectRatio = 16.0 / 9.0;
+	// Count of random samples for each pixel
+	int32_t SamplesPerPixel = 100;
+
+	// Vertical field of view in degrees
+	double VFov = 45;
+
+	// Camera parameters
+	SVec3 LookFrom = { -2, 2, 1 };
+	SVec3 LookAt = { 0, 0, -1 };
+	SVec3 Up = { 0, 1, 0 };
+
+	double DefocusAngle = 0.f;
+	double FocusDist = 10.f;
 };
 
 

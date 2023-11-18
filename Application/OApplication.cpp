@@ -1,11 +1,10 @@
-#include <iostream>
-#include <fstream>
 #include "OApplication.h"
-
+#include "../Objects/Materials/Dielectric.h"
 #include "../Objects/Sphere.h"
-#include "../Objects/SRay.h"
 #include "../Objects/Materials/Lambertian.h"
 #include "../Objects/Materials/Metal.h"
+#include "../Utils/Materials.h"
+#include "Scencens/Scences.h"
 
 OApplication::OApplication()
 {
@@ -21,15 +20,14 @@ void OApplication::AddSphere(const SVec3& Position, float Radius, std::shared_pt
 
 void OApplication::Init()
 {
-	auto ground = CreateMaterial<OLambertian>(SColor(0.8, 0.8, 0.0));
-	auto center = CreateMaterial<OLambertian>(SColor(0.7, 0.3, 0.3));
-	auto left = CreateMaterial<OMetal>(SColor(0.8, 0.8, 0.8));
-	auto right = CreateMaterial<OMetal>(SColor(0.8, 0.6, 0.2));
+	Scenes::FOVTestScene FOVScene;
+	Scenes::OFirst4SpheresScene FirstScene;
+	FirstScene.InitScene(*this);
 
-	AddSphere(SVec3{ 0.0, -100.5, -1.0 }, 100.0, ground);
-	AddSphere(SVec3{ 0.0, 0.0, -1.0 }, 0.5, center);
-	AddSphere(SVec3{ -1.0, 0.0, -1.0 }, 0.5, left);
-	AddSphere(SVec3{ 1.0, 0.0, -1.0 }, 0.5, right);
+	Camera.DefocusAngle = 15;
+	Camera.FocusDist = 3.4f;
+	Camera.VFov = 45;
+	Camera.ImageWidth = 800;
 }
 
 void OApplication::Render()

@@ -6,7 +6,7 @@
 #include <random>
 
 // Constants
-namespace Utils { namespace Math
+namespace Utils::Math
 {
 inline auto Lerp(float T, const SVec3& A, const SVec3& B)
 {
@@ -74,7 +74,7 @@ inline SVec3 UnitVector(const SVec3 Value)
 }
 
 template<typename T = double>
-inline auto RandomDouble()
+inline auto Random()
 {
 	static std::uniform_real_distribution<T> Distribution(0.0, 1.0); // Random double distribution
 	static std::mt19937 Generator; // Random number generator
@@ -82,19 +82,19 @@ inline auto RandomDouble()
 }
 
 template<typename T = double>
-inline auto RandomDouble(float Min, float Max)
+inline auto Random(float Min, float Max)
 {
-	return Min + (Max - Min) * RandomDouble<T>(); // Return a random double between Min and Max
+	return Min + (Max - Min) * Random<T>(); // Return a random double between Min and Max
 }
 
 inline SVec3 RandomVec()
 {
-	return SVec3{ RandomDouble<float>(), RandomDouble<float>(), RandomDouble<float>() }; // Return a random vector
+	return SVec3{ Random<float>(), Random<float>(), Random<float>() }; // Return a random vector
 }
 
 inline SVec3 RandomVec(const float Min, const float Max)
 {
-	return { RandomDouble<float>(Min, Max), RandomDouble<float>(Min, Max), RandomDouble<float>(Min, Max) };
+	return { Random<float>(Min, Max), Random<float>(Min, Max), Random<float>(Min, Max) };
 }
 
 inline SVec3 RandomVecInUnitSphere()
@@ -121,10 +121,7 @@ inline SVec3 RandomVecOnHemisphere(const SVec3& Normal)
 	{
 		return OnUnitSphere; // Return the vector
 	}
-	else
-	{
-		return -OnUnitSphere; // Return the negative vector
-	}
+	return -OnUnitSphere; // Return the negative vector
 }
 
 inline double LinearToGamma(double Linear)
@@ -146,4 +143,50 @@ inline SVec3 Reflect(const SVec3& Vec, const SVec3& Normal)
 {
 	return Vec - 2 * Dot(Vec, Normal) * Normal;
 }
-}}
+
+inline SVec3 Refract(const SVec3& UV, const SVec3& Normal, double EtaIOverEtaT)
+{
+	/*Calculates the cosine of the angle between the incident vector and the surface normal.
+	 *It uses the dot product for this.
+	 *The fmin function ensures the value doesn't exceed 1.0,
+	 *which might happen due to floating-point imprecision.*/
+	auto cosTheta = fmin(Dot(-UV, Normal), 1.0);
+
+	/*Calculates the perpendicular component of the refracted ray.
+	 *It scales the sum of the incident vector and the surface normal (scaled by cosTheta) by the refractive index ratio.*/
+	SVec3 rOutPerp = EtaIOverEtaT * (UV + cosTheta * Normal);
+
+	/*Calculates the parallel component of the refracted ray.
+	 *It's computed based on the length of the perpendicular component,
+	 *ensuring that the total length (when combined with the parallel component) corresponds to a unit vector.*/
+	SVec3 rOutParallel = -sqrt(fabs(1.0 - LengthSquared(rOutPerp))) * Normal;
+
+	/*Combines the perpendicular and parallel components to give the final refracted vector.*/
+	return rOutPerp + rOutParallel;
+}
+
+inline double Reflectance(const double Cosine, const double RefIdx)
+{
+	// Schlick's approximation.
+	auto r0 = (1 - RefIdx) / (1 + RefIdx);
+	r0 = r0 * r0;
+	return r0 + (1 - r0) * pow((1 - Cosine), 5);
+}
+
+inline auto Cross(const SVec3& A, const SVec3& B)
+{
+	return boost::qvm::cross(A, B);
+}
+
+inline auto RandomUnitInDisk()
+{
+	while (true)
+	{
+		const auto point = SVec3{ Random<float>(-1, 1), Random<float>(-1, 1), 0.0 };
+		if (LengthSquared(point) < 1.0)
+		{
+			return point;
+		}
+	}
+}
+}

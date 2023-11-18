@@ -13,10 +13,12 @@ add_executable(Raytracer main.cpp Objects/SRay.h Types/Math.h Types/Math.h Appli
         Types/Types.h
         Types/Interval/Interval.h
         Types/Interval/Interval.cpp
-        Types/Interval/Interval.cpp
         Objects/Materials/Material.h
         Objects/Materials/Lambertian.h
         Objects/Materials/Metal.h
-        Objects/Materials/Metal.h)
+        Objects/Materials/Dielectric.h
+        Application/Scencens/Scences.h
+        Utils/Materials.h
+)
 
 target_link_libraries(Raytracer Boost::boost)

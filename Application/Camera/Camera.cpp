@@ -38,20 +38,40 @@ void OCamera::Render(const IHittable& World)
 
 void OCamera::Init()
 {
+	using namespace Utils::Math;
+
+	// Camera basic parameters
+	CameraCenter = LookFrom;
+
+	// Camera coordinate system
+	CameraW = Normalize(LookFrom - LookAt);
+	CameraU = Normalize(Cross(Up, CameraW));
+	CameraV = Cross(CameraW, CameraU);
+
+	const auto theta = Utils::Math::DegreesToRaians(VFov);
+	const auto h = tan(theta / 2);
+
+	//Viewport parameters
+	ViewportHeight = 2.0 * h * FocusDist;
 	ImageHeight = (ImageWidth / AspectRatio);
 	ImageHeight = (ImageHeight < 1) ? 1 : ImageHeight;
-
 	ViewportWidth = (static_cast<double>(ImageWidth) / ImageHeight) * ViewportHeight;
 
-	const auto viewportU = SVec3{ ViewportWidth, 0, 0 };
-	const auto viewportV = SVec3{ 0, -ViewportHeight, 0 };
+	//Delta vectors for each pixel
+	const auto viewportU = ViewportWidth * CameraU;
+	const auto viewportV = ViewportHeight * -CameraV;
 
 	PixelDeltaU = viewportU / ImageWidth;
 	PixelDeltaV = viewportV / ImageHeight;
 
+	//Upper left pixel
 	ViewportUpperLeft =
-		GetCameraCenter() - SVec3{ 0, 0, GetFocalLength() } - (viewportU / 2) - (viewportV / 2);
+		GetCameraCenter() - (FocusDist * CameraW) - (viewportU / 2) - (viewportV / 2);
 	PixelZeroLoc = ViewportUpperLeft + 0.5 * (PixelDeltaU + PixelDeltaV);
+
+	const auto defocuseRadius = FocusDist * tan(DegreesToRaians(DefocusAngle / 2));
+	DefocusDiskU = defocuseRadius * CameraU;
+	DefocusDiskV = defocuseRadius * CameraV;
 }
 
 SRay OCamera::GetRay(float U, float V) const
@@ -61,7 +81,7 @@ SRay OCamera::GetRay(float U, float V) const
 	auto pixelCenter = PixelZeroLoc + (U * PixelDeltaU) + (V * PixelDeltaV);
 	auto pixelSample = pixelCenter + PixelSampleSquare();
 
-	auto rayOrigin = GetCameraCenter();
+	auto rayOrigin = (DefocusAngle <= 0) ? GetCameraCenter() : DefocusDiskSample();
 	auto rayDir = pixelSample - rayOrigin;
 
 	return SRay{ rayOrigin, rayDir };
@@ -94,10 +114,16 @@ SColor OCamera::RayColor(const SRay& Ray, const IHittable& World, uint32_t Depth
 
 SVec3 OCamera::PixelSampleSquare() const
 {
-	auto px = Utils::Math::RandomDouble() - 0.5;
-	auto py = Utils::Math::RandomDouble() - 0.5;
+	auto px = Utils::Math::Random() - 0.5;
+	auto py = Utils::Math::Random() - 0.5;
 
 	return (px * PixelDeltaU) + (py * PixelDeltaV);
+}
+
+SVec3 OCamera::DefocusDiskSample() const
+{
+	const auto [a] = Utils::Math::RandomUnitInDisk();
+	return GetCameraCenter() + (DefocusDiskU * a[0]) + (DefocusDiskV * a[1]);
 }
 
 void OCamera::Draw(std::ostream& Out, SColor Color)
