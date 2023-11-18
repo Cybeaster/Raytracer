@@ -10,31 +10,8 @@
 
 #include <fstream>
 #include <iostream>
+#include <thread>
 
-void OCamera::Render(const IHittable& World)
-{
-	Init();
-	std::ofstream OutFile("image.ppm");
-
-	OutFile << "P3\n" << ImageWidth << ' ' << ImageHeight << "\n255\n";
-
-	for (int j = 0; j < ImageHeight; ++j)
-	{
-		std::clog << "\rScanlines remaining: " << ImageHeight - j << ' ' << std::flush;
-		for (int i = 0; i < ImageWidth; ++i)
-		{
-			SColor pixelColor{ 0, 0, 0 };
-			for (int32_t sample = 0; sample < SamplesPerPixel; ++sample)
-			{
-				SRay ray = GetRay(i, j);
-				pixelColor += RayColor(ray, World, MaxDepth);
-			}
-			Draw(OutFile, pixelColor);
-		}
-	}
-	OutFile.close();
-	std::clog << "\nDone.\n";
-}
 
 void OCamera::Init()
 {
@@ -112,6 +89,11 @@ SColor OCamera::RayColor(const SRay& Ray, const IHittable& World, uint32_t Depth
 	return Lerp(res, SColor{ 1.0f, 1.0f, 1.0f }, SColor{ 0.5f, 0.7f, 1.0f });
 }
 
+SColor OCamera::RayColor(const SRay& Ray, const IHittable& World)
+{
+	return RayColor(Ray, World, MaxDepth);
+}
+
 SVec3 OCamera::PixelSampleSquare() const
 {
 	auto px = Utils::Math::Random() - 0.5;
@@ -126,14 +108,4 @@ SVec3 OCamera::DefocusDiskSample() const
 	return GetCameraCenter() + (DefocusDiskU * a[0]) + (DefocusDiskV * a[1]);
 }
 
-void OCamera::Draw(std::ostream& Out, SColor Color)
-{
-	Color *= 1.f / SamplesPerPixel;
-	Color = Utils::Math::LinearToGamma(Color);
-	static const SInterval intensity(0.0, 0.999);
-
-	Out << static_cast<int>(256 * intensity.Clamp(Color.R)) << ' '
-		<< static_cast<int>(256 * intensity.Clamp(Color.G)) << ' '
-		<< static_cast<int>(256 * intensity.Clamp(Color.B)) << '\n';
-}
 

@@ -51,6 +51,9 @@ struct SColor
 		return SColor{ R * Other.R, G * Other.G, B * Other.B, A * Other.A };
 	}
 
+	bool operator==(const SColor&) const = default;
+
+
 	template<typename T>
 	void operator *=(T Value)
 	{
@@ -93,4 +96,6 @@ struct SColor
 	float G;
 	float B;
 	float A;
+	static SColor NullColor;
 };
+

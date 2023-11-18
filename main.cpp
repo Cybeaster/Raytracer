@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Application/OApplication.h"
 
-int main() {
-    OApplication app;
+int main()
+{
+	OApplication app;
 }

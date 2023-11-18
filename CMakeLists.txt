@@ -19,6 +19,19 @@ add_executable(Raytracer main.cpp Objects/SRay.h Types/Math.h Types/Math.h Appli
         Objects/Materials/Dielectric.h
         Application/Scencens/Scences.h
         Utils/Materials.h
+        Types/Color.cpp
+        Types/Color.cpp
+        Application/Renderers/SyncRenderer.h
+        Application/Renderers/Renderer.h
+        Application/Renderers/AsyncRenderer.h
+        Application/Renderers/AsyncRenderer.h
+        Types/Output/Serializable.h
+        Types/Output/PPMSerializer.h
+        Types/Output/PPMSerializer.cpp
+        Application/Camera/Raytracer.h
+        Types/Logger.h
+        Types/Profiler/Profiler.h
+        Types/ExitHelper.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

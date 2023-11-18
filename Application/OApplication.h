@@ -7,6 +7,9 @@
 
 #include "Camera/Camera.h"
 
+class ISerializer;
+class ORenderer;
+
 class OApplication
 {
 public:
@@ -17,7 +20,10 @@ private:
 	void Init();
 	void Render();
 
-	OCamera Camera;
+	std::shared_ptr<OCamera> Camera;
+	std::shared_ptr<ORenderer> Renderer;
+	std::shared_ptr<ISerializer> Serializer;
+
 	OHittableList World;
 };
 

@@ -1,18 +1,21 @@
 #pragma once
 
+#include "Raytracer.h"
 #include "../../Types/Color.h"
 #include "../../Types/Math.h"
 
 class SRay;
 
-class OCamera
+class OCamera final : public IRaytracer
 {
 public:
-	void Render(const IHittable& World);
+	OCamera()
+	{
+		Init();
+	}
 
 	void Init();
 	SRay GetRay(float U, float V) const;
-	SColor RayColor(const SRay& Ray, const class IHittable& World, uint32_t Depth);
 
 	auto GetFocalLength() const
 	{
@@ -24,12 +27,13 @@ public:
 		return CameraCenter;
 	}
 
+	SColor RayColor(const SRay& Ray, const IHittable& World);
 
 	SVec3 PixelSampleSquare() const;
 	SVec3 DefocusDiskSample() const;
 
 private:
-	void Draw(std::ostream& Out, SColor Color);
+	SColor RayColor(const SRay& Ray, const class IHittable& World, uint32_t Depth);
 
 public:
 	float FocalLength = 0.5f;

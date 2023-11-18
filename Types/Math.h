@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/qvm.hpp>
+#include <cstdint>
 
 
 template<typename T, int D>
