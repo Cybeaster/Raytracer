@@ -94,8 +94,8 @@ DEFINE_SCENE(LotsRandomSpheres)
 
 	camera->DefocusAngle = 0.6f;
 	camera->FocusDist = 10.f;
-	camera->VFov = 20;
-	camera->LookFrom = { 13, 2, 3 };
+	camera->VFov = 30;
+	camera->LookFrom = { 0, 2, 10 };
 	camera->LookAt = { 0, 0, 0 };
 
 	camera->SamplesPerPixel = 500;
