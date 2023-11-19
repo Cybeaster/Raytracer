@@ -9,7 +9,15 @@
 #include "Renderers/AsyncRenderer.h"
 #include "Renderers/Renderer.h"
 #include "Renderers/SyncRenderer.h"
-#include "Scencens/Scences.h"
+#include "Scencens\Scenes.h"
+
+
+#define INIT_SCENE(Name) \
+	Scenes::OScene* scene = new Name(); \
+	scene->InitScene(*this); \
+	delete scene;
+
+OApplication* OApplication::Instance = nullptr;
 
 OApplication::OApplication()
 {
@@ -25,19 +33,12 @@ void OApplication::AddSphere(const SVec3& Position, float Radius, std::shared_pt
 
 void OApplication::Init()
 {
-	Scenes::FOVTestScene FOVScene;
-	Scenes::OFirst4SpheresScene FirstScene;
-
 	Camera = std::make_shared<OCamera>();
+	INIT_SCENE(Scenes::OLotsRandomSpheresScene);
+	Camera->Init();
+
 	Serializer = std::make_shared<OPPMSerializer>(Camera->SamplesPerPixel);
 	Renderer = std::make_shared<OAsyncRenderer>(Camera->ImageWidth, Camera->ImageHeight);
-
-	FirstScene.InitScene(*this);
-
-	Camera->DefocusAngle = 15;
-	Camera->FocusDist = 3.4f;
-	Camera->VFov = 45;
-	Camera->ImageWidth = 800;
 }
 
 void OApplication::Render()

@@ -3,5 +3,5 @@
 
 int main()
 {
-	OApplication app;
+	auto application = OApplication::Get();
 }

@@ -9,10 +9,7 @@ class SRay;
 class OCamera final : public IRaytracer
 {
 public:
-	OCamera()
-	{
-		Init();
-	}
+
 
 	void Init();
 	SRay GetRay(float U, float V) const;

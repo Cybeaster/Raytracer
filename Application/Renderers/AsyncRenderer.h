@@ -41,7 +41,7 @@ public:
 						                     UpdateBuffer(i, j, pixelColor);
 					                     }
 					                     const double percentage = 100.0 * static_cast<double>(i - StartRow) / (EndRow - StartRow);
-					                     //std::printf("Worker %i processed: %f%%!\n", ThreadID, percentage);
+					                     std::printf("Worker %i processed: %f%%!\n", ThreadID, percentage);
 				                     }
 				                     std::printf("Worker: %i finished!\n", ThreadID);
 			                     },

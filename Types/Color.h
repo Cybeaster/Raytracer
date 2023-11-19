@@ -1,5 +1,6 @@
 #pragma once
 #include "Math.h"
+#include "../Utils/Math.h"
 
 struct SColor
 {
@@ -90,6 +91,12 @@ struct SColor
 	SColor operator*(float Value) const
 	{
 		return SColor{ R * Value, G * Value, B * Value };
+	}
+
+	template<typename... Args>
+	static SColor Random(Args... args)
+	{
+		return SColor{ Utils::Math::Random<float>(args...), Utils::Math::Random<float>(args...), Utils::Math::Random<float>(args...) };
 	}
 
 	float R;

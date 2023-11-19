@@ -17,7 +17,7 @@ add_executable(Raytracer main.cpp Objects/SRay.h Types/Math.h Types/Math.h Appli
         Objects/Materials/Lambertian.h
         Objects/Materials/Metal.h
         Objects/Materials/Dielectric.h
-        Application/Scencens/Scences.h
+        Application/Scencens/Scenes.h
         Utils/Materials.h
         Types/Color.cpp
         Types/Color.cpp
