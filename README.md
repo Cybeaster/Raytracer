@@ -44,8 +44,7 @@ static const SInterval intensity(0.0, 0.999);
 ```
 
 ## Examples
-
+![ManySpheres](https://github.com/Cybeaster/Raytracer/blob/ExtendedScene/Examples/MaySpheresCenter.png)
 ![Blur](https://github.com/Cybeaster/Raytracer/blob/develop/Examples/FocusGlassLabMetal.png)
 ![Metal](https://github.com/Cybeaster/Raytracer/blob/develop/Examples/GlassLabertianFuzzedMetal.png)
-![Lambertian](https://github.com/Cybeaster/Raytracer/blob/develop/Examples/GlassLabertianMetal.png)
 
