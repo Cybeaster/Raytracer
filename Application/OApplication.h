@@ -13,10 +13,25 @@ class ORenderer;
 class OApplication
 {
 public:
-	OApplication();
+	static OApplication* Get()
+	{
+		if (Instance == nullptr)
+		{
+			Instance = new OApplication();
+		}
+		return Instance;
+	}
+
 	void AddSphere(const SVec3& Position, float Radius, std::shared_ptr<IMaterial> Material);
 
+	OCamera* GetCamera() const
+	{
+		return Camera.get();
+	}
+
 private:
+	OApplication();
+
 	void Init();
 	void Render();
 
@@ -25,6 +40,8 @@ private:
 	std::shared_ptr<ISerializer> Serializer;
 
 	OHittableList World;
+
+	static OApplication* Instance;
 };
 
 
