@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Types/Math.h"
-#include "../Objects/SRay.h"
+#include "..\Objects\Ray.h"
 
 #include <random>
 

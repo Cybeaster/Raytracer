@@ -22,8 +22,9 @@ public:
 		return Instance;
 	}
 
-	void AddSphere(const SVec3& Position, float Radius, std::shared_ptr<IMaterial> Material);
 
+	void AddSphere(const SVec3& Position, float Radius, std::shared_ptr<IMaterial> Material);
+	void AddMovingSphere(const SVec3& Position,const SVec3& SecondPosition, float Radius, std::shared_ptr<IMaterial> Material);
 	OCamera* GetCamera() const
 	{
 		return Camera.get();

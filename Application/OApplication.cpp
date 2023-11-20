@@ -31,6 +31,12 @@ void OApplication::AddSphere(const SVec3& Position, float Radius, std::shared_pt
 	World.Add(make_shared<OSphere>(Position, Radius, Material));
 }
 
+void OApplication::AddMovingSphere(const SVec3& Position, const SVec3& SecondPosition, float Radius, std::shared_ptr<IMaterial> Material)
+{
+	ENSURE(Material != nullptr);
+	World.Add(make_shared<OSphere>(Position, SecondPosition, Radius, Material));
+}
+
 void OApplication::Init()
 {
 	Camera = std::make_shared<OCamera>();
