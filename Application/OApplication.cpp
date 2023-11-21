@@ -1,6 +1,6 @@
 #include "OApplication.h"
 #include "../Objects/Materials/Dielectric.h"
-#include "../Objects/Sphere.h"
+#include "../Objects/Hittable/Sphere/Sphere.h"
 #include "../Objects/Materials/Lambertian.h"
 #include "../Objects/Materials/Metal.h"
 #include "../Types/Output/PPMSerializer.h"

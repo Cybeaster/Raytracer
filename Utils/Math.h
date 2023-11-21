@@ -76,15 +76,20 @@ inline SVec3 UnitVector(const SVec3 Value)
 template<typename T = double>
 inline auto Random()
 {
-	static std::uniform_real_distribution<T> Distribution(0.0, 1.0); // Random double distribution
+	static std::uniform_real_distribution<T> Distribution(0, 1); // Random double distribution
 	static std::mt19937 Generator; // Random number generator
 	return Distribution(Generator); // Return a random double between 0 and 1
 }
 
 template<typename T = double>
-inline auto Random(float Min, float Max)
+inline auto Random(T Min, T Max)
 {
 	return Min + (Max - Min) * Random<T>(); // Return a random double between Min and Max
+}
+
+inline int32_t Random(int32_t Min, int32_t Max)
+{
+	return Random<double>(Min, Max + 1);
 }
 
 inline SVec3 RandomVec()

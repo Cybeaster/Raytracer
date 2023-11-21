@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(Boost REQUIRED)
 
-add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Application/OApplication.cpp Application/OApplication.h Application/Camera/Camera.cpp Application/Camera/Camera.h Objects/Sphere.cpp Objects/Sphere.h Utils/Math.h
+add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Application/OApplication.cpp Application/OApplication.h Application/Camera/Camera.cpp Application/Camera/Camera.h Objects/Hittable/Sphere/Sphere.cpp Objects/Hittable/Sphere/Sphere.h Utils/Math.h
         Types/Color.h
-        Objects/Hittable.h
+        Objects/Hittable/Hittable.h
         Utils/Exceptions.h
-        Objects/HittableList.h
+        Objects/Hittable/List/HittableList.h
         Types/Types.h
         Types/Interval/Interval.h
         Types/Interval/Interval.cpp
@@ -34,6 +34,10 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Types/ExitHelper.h
         Types/AABB/AABB.cpp
         Types/AABB/AABB.h
+        Objects/Hittable/List/HittableList.cpp
+        Objects/Hittable/List/HittableList.h
+        Objects/Hittable/BVH/BVHNode.cpp
+        Objects/Hittable/BVH/BVHNode.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

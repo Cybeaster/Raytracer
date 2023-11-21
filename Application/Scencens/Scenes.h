@@ -1,5 +1,6 @@
 #pragma once
 #include "../OApplication.h"
+#include "../../Objects/Hittable/BVH/BVHNode.h"
 
 
 #define DEFINE_SCENE(Name) \
@@ -97,6 +98,9 @@ DEFINE_SCENE(LotsRandomSpheres)
 
 	const auto camera = OutApplication.GetCamera();
 
+	auto& world = OutApplication.GetWorld();
+	//world = { std::make_shared<SBVHNode>(world) };
+
 	camera->DefocusAngle = 0.6f;
 	camera->FocusDist = 10.f;
 	camera->VFov = 30;
@@ -105,6 +109,6 @@ DEFINE_SCENE(LotsRandomSpheres)
 
 	camera->SamplesPerPixel = 100;
 	camera->MaxDepth = 50;
-	camera->ImageWidth = 400;
+	camera->ImageWidth = 800;
 }
 }

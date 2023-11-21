@@ -2,7 +2,7 @@
 // Created by Cybea on 12/11/2023.
 //
 #include "../../Utils/Math.h"
-#include "../../Objects/Sphere.h"
+#include "../../Objects/Hittable/Sphere/Sphere.h"
 
 #include "Camera.h"
 

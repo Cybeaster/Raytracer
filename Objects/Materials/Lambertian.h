@@ -1,7 +1,7 @@
 #pragma once
 #include "Material.h"
 #include "../../Types/Color.h"
-#include "../Hittable.h"
+#include "../Hittable/Hittable.h"
 #include "..\Ray.h"
 
 class OLambertian : public IMaterial

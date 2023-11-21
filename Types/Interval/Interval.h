@@ -12,6 +12,12 @@ struct SInterval
 	{
 	}
 
+	SInterval(const SInterval& A, const SInterval& B)
+		: Min(fmin(A.Min, B.Min))
+		, Max(fmax(A.Max, B.Max))
+	{
+	}
+
 	SInterval(const double MinP, const double MaxP)
 		: Min(MinP)
 		, Max(MaxP)
@@ -48,6 +54,7 @@ struct SInterval
 	{
 		return Max - Min;
 	}
+
 
 	double Min, Max;
 };

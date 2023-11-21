@@ -5,6 +5,27 @@
 #include "AABB.h"
 
 
+SAABB::SAABB(const SInterval& iX, const SInterval& iY, const SInterval& iZ)
+	: X(iX)
+	, Y(iY)
+	, Z(iZ)
+{
+}
+
+SAABB::SAABB(const SVec3& A, const SVec3& B)
+	: X(SInterval(fmin(A.a[0], B.a[0]), fmax(A.a[0], B.a[0])))
+	, Y(SInterval(fmin(A.a[1], B.a[1]), fmax(A.a[1], B.a[1])))
+	, Z(SInterval(fmin(A.a[2], B.a[2]), fmax(A.a[2], B.a[2])))
+{
+}
+
+SAABB::SAABB(const SAABB& A, const SAABB& B)
+	: X(SInterval(A.X, B.X))
+	, Y(SInterval(A.Y, B.Y))
+	, Z(SInterval(A.Z, B.Z))
+{
+}
+
 const SInterval& SAABB::Axis(const int32_t N) const
 {
 	switch (N)
