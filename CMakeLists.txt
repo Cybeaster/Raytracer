@@ -32,6 +32,8 @@ add_executable(Raytracer main.cpp Objects/SRay.h Types/Math.h Types/Math.h Appli
         Types/Logger.h
         Types/Profiler/Profiler.h
         Types/ExitHelper.h
+        Types/AABB/AABB.cpp
+        Types/AABB/AABB.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

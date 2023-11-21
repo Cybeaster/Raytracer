@@ -1,6 +1,7 @@
 #pragma once
 #include "../Types/Interval/Interval.h"
 #include "../Types/Math.h"
+#include "../Types/AABB/AABB.h"
 #include "../Utils/Math.h"
 #include "../Utils/Exceptions.h"
 
@@ -30,6 +31,6 @@ class IHittable
 {
 public:
 	virtual ~IHittable() = default;
-
 	virtual bool Hit(const SRay& Ray, SInterval Interval, SHitRecord& HitRecord) const = 0;
+	virtual SAABB GetBoundingBox() const = 0;
 };

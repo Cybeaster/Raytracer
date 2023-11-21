@@ -38,5 +38,16 @@ struct SInterval
 		return Value;
 	}
 
+	SInterval Expand(double Delta)
+	{
+		auto padding = Delta / 2;
+		return SInterval(Min - padding, Max + padding);
+	}
+
+	double Size() const
+	{
+		return Max - Min;
+	}
+
 	double Min, Max;
 };
