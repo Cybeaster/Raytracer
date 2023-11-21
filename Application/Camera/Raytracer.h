@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Objects/SRay.h"
+#include "..\..\Objects\Ray.h"
 #include "../../Types/Math.h"
 #include "../../Types/Color.h"
 

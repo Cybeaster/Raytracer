@@ -1,7 +1,7 @@
 #pragma once
 #include "Material.h"
 #include "../../Types/Color.h"
-#include "../SRay.h"
+#include "..\Ray.h"
 
 
 class OMetal : public IMaterial
@@ -17,7 +17,7 @@ public:
 	{
 		/*Fully reflect the ray and return the albedo*/
 		const SVec3 reflected = Utils::Math::Reflect(Utils::Math::Normalize(Ray.GetDirection()), HitRecord.Normal);
-		OutScattered = SRay(HitRecord.Point, reflected + Fuzz * Utils::Math::RandomUnitVector());
+		OutScattered = SRay(HitRecord.Point, reflected + Fuzz * Utils::Math::RandomUnitVector(), Ray.GetTime());
 		OutAttenuation = Albedo;
 		return (Utils::Math::Dot(OutScattered.GetDirection(), HitRecord.Normal) > 0);
 	}

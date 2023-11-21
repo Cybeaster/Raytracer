@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(Boost REQUIRED)
 
-add_executable(Raytracer main.cpp Objects/SRay.h Types/Math.h Types/Math.h Application/OApplication.cpp Application/OApplication.h Application/Camera/Camera.cpp Application/Camera/Camera.h Objects/Sphere.cpp Objects/Sphere.h Utils/Math.h
+add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Application/OApplication.cpp Application/OApplication.h Application/Camera/Camera.cpp Application/Camera/Camera.h Objects/Sphere.cpp Objects/Sphere.h Utils/Math.h
         Types/Color.h
         Objects/Hittable.h
         Utils/Exceptions.h

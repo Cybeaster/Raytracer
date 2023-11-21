@@ -9,8 +9,6 @@ class SRay;
 class OCamera final : public IRaytracer
 {
 public:
-
-
 	void Init();
 	SRay GetRay(float U, float V) const;
 
@@ -25,7 +23,6 @@ public:
 	}
 
 	SColor RayColor(const SRay& Ray, const IHittable& World);
-
 	SVec3 PixelSampleSquare() const;
 	SVec3 DefocusDiskSample() const;
 

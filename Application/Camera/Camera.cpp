@@ -55,13 +55,15 @@ SRay OCamera::GetRay(float U, float V) const
 {
 	//Get a random sampled camera ray for a pixel specified
 
-	auto pixelCenter = PixelZeroLoc + (U * PixelDeltaU) + (V * PixelDeltaV);
-	auto pixelSample = pixelCenter + PixelSampleSquare();
+	const auto pixelCenter = PixelZeroLoc + (U * PixelDeltaU) + (V * PixelDeltaV);
+	const auto pixelSample = pixelCenter + PixelSampleSquare();
 
-	auto rayOrigin = (DefocusAngle <= 0) ? GetCameraCenter() : DefocusDiskSample();
-	auto rayDir = pixelSample - rayOrigin;
+	const auto rayOrigin = (DefocusAngle <= 0) ? GetCameraCenter() : DefocusDiskSample();
+	const auto rayDir = pixelSample - rayOrigin;
 
-	return SRay{ rayOrigin, rayDir };
+	auto rayTime = Utils::Math::Random();
+
+	return SRay{ rayOrigin, rayDir, rayTime };
 }
 
 SColor OCamera::RayColor(const SRay& Ray, const IHittable& World, uint32_t Depth)

@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Types/Color.h"
-#include "../SRay.h"
+#include "..\Ray.h"
 
 class SHitRecord;
 

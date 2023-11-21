@@ -71,7 +71,8 @@ DEFINE_SCENE(LotsRandomSpheres)
 					auto albedo = SColor::Random(0.5, 1);
 					auto fuzz = Utils::Math::Random<double>(0, 0.5);
 					sphereMaterial = Utils::Materials::CreateMaterial<OMetal>(albedo, fuzz);
-					OutApplication.AddSphere(center, 0.2, sphereMaterial);
+					auto point2 = center + SVec3{ 0, Utils::Math::Random<float>(0, 0.5), 0 };
+					OutApplication.AddMovingSphere(center, point2, 0.2, sphereMaterial);
 				}
 				else
 				{
@@ -81,8 +82,12 @@ DEFINE_SCENE(LotsRandomSpheres)
 			}
 		}
 	}
-	auto mat1 = Utils::Materials::CreateMaterial<ODielectric>(1.5);
-	OutApplication.AddSphere({ 0, 1, 0 }, 1.0, mat1);
+	const auto mat1 = Utils::Materials::CreateMaterial<ODielectric>(1.5);
+	const auto mat1Pos = SVec3{ 0, 1, 0 };
+	OutApplication.AddMovingSphere(mat1Pos,
+	                               mat1Pos + SVec3{ 0, Utils::Math::Random<float>(0, 0.5), 0 },
+	                               1.0,
+	                               mat1);
 
 	auto mat2 = Utils::Materials::CreateMaterial<OLambertian>(SColor(0.4, 0.2, 0.1));
 	OutApplication.AddSphere({ -4, 1, 0 }, 1.0, mat2);
@@ -95,11 +100,11 @@ DEFINE_SCENE(LotsRandomSpheres)
 	camera->DefocusAngle = 0.6f;
 	camera->FocusDist = 10.f;
 	camera->VFov = 30;
-	camera->LookFrom = { 0, 2, 10 };
+	camera->LookFrom = { 13, 2, 3 };
 	camera->LookAt = { 0, 0, 0 };
 
-	camera->SamplesPerPixel = 500;
+	camera->SamplesPerPixel = 100;
 	camera->MaxDepth = 50;
-	camera->ImageWidth = 1200;
+	camera->ImageWidth = 400;
 }
 }

@@ -1,13 +1,15 @@
 #include "Sphere.h"
-#include "SRay.h"
+#include "Ray.h"
 #include "Hittable.h"
 
 bool OSphere::Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord) const
 {
 	using namespace Utils::Math;
 
+	SVec3 center = IsMoving ? GetPositionAtTime(Ray.GetTime()) : Center;
+
 	/*Find intersection points*/
-	auto oc = Ray.GetOrigin() - Center;
+	auto oc = Ray.GetOrigin() - center;
 	auto a = LengthSquared(Ray.GetDirection());
 	auto halfB = Dot(oc, Ray.GetDirection());
 	auto c = LengthSquared(oc) - Squared(Radius);
@@ -34,7 +36,7 @@ bool OSphere::Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord)
 	// We have a valid intersection
 	OutHitRecord.T = root;
 	OutHitRecord.Point = Ray.PointAtParameter(OutHitRecord.T);
-	const auto outwardNormal = (OutHitRecord.Point - Center) / Radius;
+	const auto outwardNormal = (OutHitRecord.Point - center) / Radius;
 	OutHitRecord.SetFaceNormal(Ray, outwardNormal);
 	OutHitRecord.Material = Material;
 	return true;

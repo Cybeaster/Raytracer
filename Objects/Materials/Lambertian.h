@@ -2,7 +2,7 @@
 #include "Material.h"
 #include "../../Types/Color.h"
 #include "../Hittable.h"
-#include "../SRay.h"
+#include "..\Ray.h"
 
 class OLambertian : public IMaterial
 {
@@ -21,7 +21,7 @@ public:
 			scatterDirection = HitRecord.Normal;
 		}
 
-		OutScattered = SRay(HitRecord.Point, scatterDirection);
+		OutScattered = SRay(HitRecord.Point, scatterDirection, Ray.GetTime());
 		OutAttenuation = Albedo;
 		return true;
 	}
