@@ -49,6 +49,8 @@ void OApplication::Init()
 
 void OApplication::Render()
 {
+	World = { std::make_shared<SBVHNode>(World) };
+
 	PROFILE();
 	const auto& buffer = Renderer->Draw(Camera, World, Camera->SamplesPerPixel);
 	Serializer->Serialize(buffer);

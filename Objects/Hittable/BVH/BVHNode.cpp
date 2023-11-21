@@ -15,12 +15,10 @@ SBVHNode::SBVHNode(const std::vector<std::shared_ptr<IHittable>>& Objects, size_
 {
 	auto objects = Objects;
 
-	auto axis = Utils::Math::Random(0, 2);
-	auto comparator = (axis == 0) ? BoxXCompare : (axis == 1) ? BoxYCompare : BoxZCompare;
+	const auto axis = Utils::Math::Random(0, 2);
+	const auto comparator = (axis == 0) ? BoxXCompare : (axis == 1) ? BoxYCompare : BoxZCompare;
 
-	size_t objectSpan = End - Start;
-
-	if (objectSpan == 1)
+	if (const size_t objectSpan = End - Start; objectSpan == 1)
 	{
 		Left = Right = objects[Start];
 	}

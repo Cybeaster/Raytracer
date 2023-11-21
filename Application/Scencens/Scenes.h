@@ -85,6 +85,7 @@ DEFINE_SCENE(LotsRandomSpheres)
 	}
 	const auto mat1 = Utils::Materials::CreateMaterial<ODielectric>(1.5);
 	const auto mat1Pos = SVec3{ 0, 1, 0 };
+
 	OutApplication.AddMovingSphere(mat1Pos,
 	                               mat1Pos + SVec3{ 0, Utils::Math::Random<float>(0, 0.5), 0 },
 	                               1.0,
@@ -98,17 +99,14 @@ DEFINE_SCENE(LotsRandomSpheres)
 
 	const auto camera = OutApplication.GetCamera();
 
-	auto& world = OutApplication.GetWorld();
-	//world = { std::make_shared<SBVHNode>(world) };
-
 	camera->DefocusAngle = 0.6f;
 	camera->FocusDist = 10.f;
 	camera->VFov = 30;
 	camera->LookFrom = { 13, 2, 3 };
 	camera->LookAt = { 0, 0, 0 };
 
-	camera->SamplesPerPixel = 100;
-	camera->MaxDepth = 50;
-	camera->ImageWidth = 800;
+	camera->SamplesPerPixel = 500;
+	camera->MaxDepth = 100;
+	camera->ImageWidth = 1200;
 }
 }
