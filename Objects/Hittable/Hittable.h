@@ -23,6 +23,11 @@ struct SHitRecord
 	SVec3 Point;
 	SVec3 Normal;
 	double T;
+
+	// Texture coordinates
+	double U;
+	double V;
+
 	bool FrontFace;
 	std::shared_ptr<IMaterial> Material;
 };

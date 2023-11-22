@@ -3,11 +3,17 @@
 #include "../../Types/Color.h"
 #include "../Hittable/Hittable.h"
 #include "..\Ray.h"
+#include "../Textures/Texture.h"
 
 class OLambertian : public IMaterial
 {
 public:
 	OLambertian(const SColor& A)
+		: Albedo(make_shared<OSolidColor>(A))
+	{
+	}
+
+	OLambertian(const shared_ptr<ITexture>& A)
 		: Albedo(A)
 	{
 	}
@@ -22,10 +28,10 @@ public:
 		}
 
 		OutScattered = SRay(HitRecord.Point, scatterDirection, Ray.GetTime());
-		OutAttenuation = Albedo;
+		OutAttenuation = Albedo->Value(HitRecord.U, HitRecord.V, HitRecord.Point);
 		return true;
 	}
 
 private:
-	SColor Albedo;
+	shared_ptr<ITexture> Albedo;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "../OApplication.h"
 #include "../../Objects/Hittable/BVH/BVHNode.h"
+#include "../../Objects/Textures/CheckerTexture.h"
 
 
 #define DEFINE_SCENE(Name) \
@@ -49,7 +50,8 @@ DEFINE_SCENE(FOVTest)
 
 DEFINE_SCENE(LotsRandomSpheres)
 {
-	auto groundMaterial = Utils::Materials::CreateMaterial<OLambertian>(SColor(0.5, 0.5, 0.5));
+	auto checker = make_shared<OCheckerTexture>(0.5, SColor(1, 0, 0), SColor(0.9, 0.9, 0.9));
+	auto groundMaterial = Utils::Materials::CreateMaterial<OLambertian>(checker);
 	OutApplication.AddSphere({ 0, -1000, 0 }, 1000, groundMaterial);
 
 	for (int i = -11; i < 11; i++)
@@ -105,8 +107,8 @@ DEFINE_SCENE(LotsRandomSpheres)
 	camera->LookFrom = { 13, 2, 3 };
 	camera->LookAt = { 0, 0, 0 };
 
-	camera->SamplesPerPixel = 500;
-	camera->MaxDepth = 100;
-	camera->ImageWidth = 1200;
+	camera->SamplesPerPixel = 40;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 800;
 }
 }

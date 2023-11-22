@@ -17,7 +17,7 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Objects/Materials/Lambertian.h
         Objects/Materials/Metal.h
         Objects/Materials/Dielectric.h
-        Application/Scencens/Scenes.h
+        Application/Scenes/Scenes.h
         Utils/Materials.h
         Types/Color.cpp
         Types/Color.cpp
@@ -38,6 +38,8 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Objects/Hittable/List/HittableList.h
         Objects/Hittable/BVH/BVHNode.cpp
         Objects/Hittable/BVH/BVHNode.h
+        Objects/Textures/Texture.h
+        Objects/Textures/CheckerTexture.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

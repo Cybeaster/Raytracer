@@ -9,7 +9,7 @@
 #include "Renderers/AsyncRenderer.h"
 #include "Renderers/Renderer.h"
 #include "Renderers/SyncRenderer.h"
-#include "Scencens\Scenes.h"
+#include "Scenes\Scenes.h"
 
 
 #define INIT_SCENE(Name) \
