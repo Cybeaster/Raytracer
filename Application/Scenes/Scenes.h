@@ -3,6 +3,7 @@
 #include "../../Objects/Hittable/BVH/BVHNode.h"
 #include "../../Objects/Textures/CheckerTexture.h"
 #include "../../Objects/Textures/ImageTexture.h"
+#include "../../Objects/Textures/NoiseTexture.h"
 
 
 #define DEFINE_SCENE(Name) \
@@ -145,6 +146,25 @@ DEFINE_SCENE(Earth)
 	camera->FocusDist = 10.f;
 	camera->VFov = 20;
 	camera->LookFrom = { 0, 0, 12 };
+	camera->LookAt = { 0, 0, 0 };
+
+	camera->SamplesPerPixel = 40;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 800;
+}
+
+DEFINE_SCENE(TwoPerlinSpheres)
+{
+	auto texture = make_shared<ONoiseTexture>(4);
+	OutApplication.AddSphere({ 0, -1000, 0 }, 1000, Utils::Materials::CreateMaterial<OLambertian>(texture));
+	OutApplication.AddSphere({ 0, 2, 0 }, 2, Utils::Materials::CreateMaterial<OLambertian>(texture));
+
+	const auto camera = OutApplication.GetCamera();
+
+	camera->DefocusAngle = 0.0f;
+	camera->FocusDist = 10.f;
+	camera->VFov = 20;
+	camera->LookFrom = { 13, 2, 3 };
 	camera->LookAt = { 0, 0, 0 };
 
 	camera->SamplesPerPixel = 40;

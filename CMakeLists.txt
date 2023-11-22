@@ -43,6 +43,9 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Utils/ImageLoader/STBImage.cpp
         Utils/ImageLoader/STBImage.h
         Objects/Textures/ImageTexture.h
+        Utils/Algorithms/Perlin.cpp
+        Utils/Algorithms/Perlin.h
+        Objects/Textures/NoiseTexture.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

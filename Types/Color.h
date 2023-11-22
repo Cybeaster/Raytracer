@@ -88,9 +88,14 @@ struct SColor
 	}
 
 
-	SColor operator*(float Value) const
+	SColor operator*(const float Value) const
 	{
 		return SColor{ R * Value, G * Value, B * Value };
+	}
+
+	SColor operator*(const double Value) const
+	{
+		return SColor{ R * static_cast<float>(Value), G * static_cast<float>(Value), B * static_cast<float>(Value) };
 	}
 
 	template<typename... Args>

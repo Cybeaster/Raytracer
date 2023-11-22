@@ -40,7 +40,7 @@ void OApplication::AddMovingSphere(const SVec3& Position, const SVec3& SecondPos
 void OApplication::Init()
 {
 	Camera = std::make_shared<OCamera>();
-	INIT_SCENE(Scenes::OEarthScene);
+	INIT_SCENE(Scenes::OTwoPerlinSpheresScene);
 	Camera->Init();
 
 	Serializer = std::make_shared<OPPMSerializer>(Camera->SamplesPerPixel);
