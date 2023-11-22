@@ -2,6 +2,7 @@
 #include "../OApplication.h"
 #include "../../Objects/Hittable/BVH/BVHNode.h"
 #include "../../Objects/Textures/CheckerTexture.h"
+#include "../../Objects/Textures/ImageTexture.h"
 
 
 #define DEFINE_SCENE(Name) \
@@ -105,6 +106,45 @@ DEFINE_SCENE(LotsRandomSpheres)
 	camera->FocusDist = 10.f;
 	camera->VFov = 30;
 	camera->LookFrom = { 13, 2, 3 };
+	camera->LookAt = { 0, 0, 0 };
+
+	camera->SamplesPerPixel = 40;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 800;
+}
+
+
+DEFINE_SCENE(TwoSpheres)
+{
+	auto cheker = make_shared<OCheckerTexture>(0.9, SColor(0.2, 0.3, 0.1), SColor(0.9, 0.9, 0.9));
+	OutApplication.AddSphere({ 0, -10, 0 }, 10, Utils::Materials::CreateMaterial<OLambertian>(cheker));
+	OutApplication.AddSphere({ 0, 10, 0 }, 10, Utils::Materials::CreateMaterial<OLambertian>(cheker));
+
+	auto camera = OutApplication.GetCamera();
+
+	camera->DefocusAngle = 0.f;
+	camera->FocusDist = 10.f;
+	camera->VFov = 30;
+	camera->LookFrom = { 13, 2, 3 };
+	camera->LookAt = { 0, 0, 0 };
+
+	camera->SamplesPerPixel = 40;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 800;
+}
+
+
+DEFINE_SCENE(Earth)
+{
+	auto earthTexture = make_shared<OImageTexture>("Earth.jpg");
+	auto earthMaterial = Utils::Materials::CreateMaterial<OLambertian>(earthTexture);
+	OutApplication.AddSphere({ 0, 0, 0 }, 2, earthMaterial);
+	const auto camera = OutApplication.GetCamera();
+
+	camera->DefocusAngle = 0.6f;
+	camera->FocusDist = 10.f;
+	camera->VFov = 20;
+	camera->LookFrom = { 0, 0, 12 };
 	camera->LookAt = { 0, 0, 0 };
 
 	camera->SamplesPerPixel = 40;

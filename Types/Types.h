@@ -8,3 +8,5 @@ using std::shared_ptr;
 using std::vector;
 using std::sqrt;
 using std::make_shared;
+using std::tuple;
+using std::string;

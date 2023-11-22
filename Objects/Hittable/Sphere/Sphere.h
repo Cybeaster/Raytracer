@@ -1,7 +1,7 @@
 #pragma once
 #include "../Hittable.h"
 #include "../../../Types/Math.h"
-
+#include "../../../Types/Types.h"
 struct SHitRecord;
 class SRay;
 
@@ -17,6 +17,9 @@ public:
 	bool Hit(const SRay& Ray, SInterval Interval, SHitRecord& OutHitRecord) const override;
 	SVec3 GetPositionAtTime(const double Time) const;
 	SAABB GetBoundingBox() const override;
+
+	/*U,V values*/
+	static tuple<double, double> GetUV(const SVec3& Point);
 
 private:
 	SVec3 MoveVector = { 0, 0, 0 };

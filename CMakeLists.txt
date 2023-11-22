@@ -40,6 +40,9 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Objects/Hittable/BVH/BVHNode.h
         Objects/Textures/Texture.h
         Objects/Textures/CheckerTexture.h
+        Utils/ImageLoader/STBImage.cpp
+        Utils/ImageLoader/STBImage.h
+        Objects/Textures/ImageTexture.h
 )
 
 target_link_libraries(Raytracer Boost::boost)
