@@ -1,6 +1,6 @@
 # Raytracer
 
-Asynchronous CPU raytracer, supporting diffrenet materials (Glass, Metal, Lambertian) and post process effects (Blur).
+Asynchronous CPU raytracer, supporting diffrenet materials (Glass, Metal, Lambertian), post process effects (Blur) and lightning.
 
 Has a simple profiler inside to measure and compare execution time.
 
