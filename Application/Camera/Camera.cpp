@@ -75,20 +75,23 @@ SColor OCamera::RayColor(const SRay& Ray, const IHittable& World, uint32_t Depth
 		return SColor{ 0, 0, 0 };
 	}
 
-	if (SHitRecord hitRecord; World.Hit(Ray, { 0.001, INFINITY }, hitRecord))
+	SHitRecord hitRecord;
+	if (!World.Hit(Ray, { 0.001, INFINITY }, hitRecord))
 	{
-		SRay scattered;
-		SColor attenuation;
-		if (hitRecord.Material->Scatter(Ray, hitRecord, attenuation, scattered))
-		{
-			return RayColor(scattered, World, Depth - 1) * attenuation;
-		}
-		return SColor{ 0, 0, 0 };
+		return BackgroundColor;
 	}
 
-	auto [a] = Normalize(Ray.GetDirection());
-	auto res = 0.5f * (a[1] + 1.0f);
-	return Lerp(res, SColor{ 1.0f, 1.0f, 1.0f }, SColor{ 0.5f, 0.7f, 1.0f });
+	SRay scattered;
+	SColor attenuation;
+	const SColor emitted = hitRecord.Material->Emitted(hitRecord.U, hitRecord.V, hitRecord.Point);
+
+	if (!hitRecord.Material->Scatter(Ray, hitRecord, attenuation, scattered))
+	{
+		return emitted;
+	}
+
+	const SColor colorFromScatter = attenuation * RayColor(scattered, World, Depth - 1);
+	return emitted + colorFromScatter;
 }
 
 SColor OCamera::RayColor(const SRay& Ray, const IHittable& World)

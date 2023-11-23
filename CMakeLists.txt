@@ -46,6 +46,10 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Utils/Algorithms/Perlin.cpp
         Utils/Algorithms/Perlin.h
         Objects/Textures/NoiseTexture.h
+        Objects/Hittable/Quad/Quad.h
+        Objects/Hittable/Quad/Quad.cpp
+        Objects/Hittable/Quad/Quad.cpp
+        Objects/Materials/DiffuseLight.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

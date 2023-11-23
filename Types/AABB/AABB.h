@@ -16,6 +16,7 @@ public:
 
 	const SInterval& Axis(const int32_t N) const;
 	bool Hit(const SRay& Ray, SInterval Interval) const;
+	SAABB Pad();
 
 private:
 	SInterval X, Y, Z;

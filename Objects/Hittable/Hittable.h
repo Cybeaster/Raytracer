@@ -4,6 +4,7 @@
 #include "../../Types/AABB/AABB.h"
 #include "../../Utils/Math.h"
 #include "../../Utils/Exceptions.h"
+#include "../../Types/Types.h"
 
 #include <memory>
 

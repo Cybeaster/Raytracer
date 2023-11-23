@@ -1,4 +1,6 @@
 #include "OApplication.h"
+
+#include "../Objects/Hittable/Quad/Quad.h"
 #include "../Objects/Materials/Dielectric.h"
 #include "../Objects/Hittable/Sphere/Sphere.h"
 #include "../Objects/Materials/Lambertian.h"
@@ -37,10 +39,20 @@ void OApplication::AddMovingSphere(const SVec3& Position, const SVec3& SecondPos
 	World.Add(make_shared<OSphere>(Position, SecondPosition, Radius, Material));
 }
 
+void OApplication::AddQuad(const SVec3& Position, const SVec3& U, const SVec3& V, const std::shared_ptr<IMaterial>& Material)
+{
+	World.Add(make_shared<OQuad>(Position, U, V, Material));
+}
+
+void OApplication::Add(const shared_ptr<OHittableList>& List)
+{
+	World.Add(List);
+}
+
 void OApplication::Init()
 {
 	Camera = std::make_shared<OCamera>();
-	INIT_SCENE(Scenes::OTwoPerlinSpheresScene);
+	INIT_SCENE(Scenes::OCornellBoxScene);
 	Camera->Init();
 
 	Serializer = std::make_shared<OPPMSerializer>(Camera->SamplesPerPixel);

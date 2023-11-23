@@ -1,6 +1,7 @@
 #pragma once
 #include "../OApplication.h"
 #include "../../Objects/Hittable/BVH/BVHNode.h"
+#include "../../Objects/Materials/DiffuseLight.h"
 #include "../../Objects/Textures/CheckerTexture.h"
 #include "../../Objects/Textures/ImageTexture.h"
 #include "../../Objects/Textures/NoiseTexture.h"
@@ -53,8 +54,13 @@ DEFINE_SCENE(FOVTest)
 DEFINE_SCENE(LotsRandomSpheres)
 {
 	auto checker = make_shared<OCheckerTexture>(0.5, SColor(1, 0, 0), SColor(0.9, 0.9, 0.9));
+
 	auto groundMaterial = Utils::Materials::CreateMaterial<OLambertian>(checker);
+	auto diffuseLight = Utils::Materials::CreateMaterial<ODiffuseLight>(SColor(4, 4, 4));
+
 	OutApplication.AddSphere({ 0, -1000, 0 }, 1000, groundMaterial);
+
+	OutApplication.AddQuad(SVec3{ 3, 3, -2 }, SVec3{ 2, 0, 0 }, SVec3{ 0, 0, 2 }, diffuseLight);
 
 	for (int i = -11; i < 11; i++)
 	{
@@ -109,9 +115,10 @@ DEFINE_SCENE(LotsRandomSpheres)
 	camera->LookFrom = { 13, 2, 3 };
 	camera->LookAt = { 0, 0, 0 };
 
-	camera->SamplesPerPixel = 40;
-	camera->MaxDepth = 50;
-	camera->ImageWidth = 800;
+	camera->SamplesPerPixel = 500;
+	camera->MaxDepth = 1000;
+	camera->ImageWidth = 1200;
+	camera->BackgroundColor = { 0, 0, 0 };
 }
 
 
@@ -170,5 +177,88 @@ DEFINE_SCENE(TwoPerlinSpheres)
 	camera->SamplesPerPixel = 40;
 	camera->MaxDepth = 50;
 	camera->ImageWidth = 800;
+}
+
+DEFINE_SCENE(QuadTest)
+{
+	using namespace Utils::Materials;
+	auto leftRed = Utils::Materials::CreateMaterial<OLambertian>(SColor(1.0, 0.2, 0.2));
+	auto backGreen = Utils::Materials::CreateMaterial<OLambertian>(SColor(0.2, 1.0, 0.2));
+	auto rightBlue = Utils::Materials::CreateMaterial<OLambertian>(SColor(0.2, 0.2, 1.0));
+	auto upperOrange = Utils::Materials::CreateMaterial<OLambertian>(SColor(1.0, 0.5, 0.0));
+	auto lowerTail = Utils::Materials::CreateMaterial<OLambertian>(SColor(0.2, 0.8, 0.8));
+
+	OutApplication.AddQuad(SVec3{ -3, -2, 5 }, SVec3{ 0, 0, -4 }, SVec3{ 0, 4, 0 }, leftRed);
+	OutApplication.AddQuad(SVec3{ -2, -2, 0 }, SVec3{ 4, 0, 0 }, SVec3{ 0, 4, 0 }, backGreen);
+	OutApplication.AddQuad(SVec3{ 3, -2, 1 }, SVec3{ 0, 0, 4 }, SVec3{ 0, 4, 0 }, rightBlue);
+	OutApplication.AddQuad(SVec3{ -2, 3, 1 }, SVec3{ 4, 0, 0 }, SVec3{ 0, 0, 4 }, upperOrange);
+	OutApplication.AddQuad(SVec3{ -2, -3, 5 }, SVec3{ 4, 0, 0 }, SVec3{ 0, 0, -4 }, lowerTail);
+
+	const auto camera = OutApplication.GetCamera();
+	camera->AspectRatio = 1.0;
+	camera->DefocusAngle = 0.0f;
+	camera->FocusDist = 10.f;
+	camera->VFov = 80;
+	camera->LookFrom = { 0, 0, 9 };
+	camera->LookAt = { 0, 0, 0 };
+
+	camera->SamplesPerPixel = 40;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 800;
+}
+
+DEFINE_SCENE(OneLightTest)
+{
+	auto pertex = make_shared<ONoiseTexture>(4);
+	OutApplication.AddSphere(SVec3{ 0, -1000, 0 }, 1000, Utils::Materials::CreateMaterial<OLambertian>(pertex));
+	OutApplication.AddSphere(SVec3{ 0, 2, 0 }, 2, Utils::Materials::CreateMaterial<OLambertian>(pertex));
+
+	auto diffLight = make_shared<ODiffuseLight>(SColor(4, 4, 4));
+	OutApplication.AddQuad(SVec3{ 3, 1, -2 }, SVec3{ 2, 0, 0 }, SVec3{ 0, 2, 0 }, diffLight);
+
+	auto camera = OutApplication.GetCamera();
+	camera->BackgroundColor = { 0, 0, 0 };
+
+	camera->DefocusAngle = 0.0f;
+	camera->FocusDist = 10.f;
+	camera->VFov = 20;
+	camera->LookFrom = { 26, 3, 6 };
+	camera->LookAt = { 0, 2, 0 };
+
+	camera->SamplesPerPixel = 100;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 800;
+}
+
+
+DEFINE_SCENE(CornellBox)
+{
+	auto red = IMaterial::CreateMaterial<OLambertian>(SColor(0.65, 0.05, 0.05));
+	auto white = IMaterial::CreateMaterial<OLambertian>(SColor(0.73, 0.73, 0.73));
+	auto green = IMaterial::CreateMaterial<OLambertian>(SColor(0.12, 0.45, 0.15));
+	auto light = IMaterial::CreateMaterial<ODiffuseLight>(SColor(15, 15, 15));
+
+	OutApplication.AddQuad(SVec3{ 555, 0, 0 }, SVec3{ 0, 0, 555 }, SVec3{ 0, 555, 0 }, green);
+	OutApplication.AddQuad(SVec3{ 0, 0, 0 }, SVec3{ 0, 555, 0 }, SVec3{ 0, 0, 555 }, red);
+	OutApplication.AddQuad(SVec3{ 343, 555, 332 }, SVec3{ -130, 0, 0 }, SVec3{ 0, 0, 555 }, light);
+	OutApplication.AddQuad(SVec3{ 0, 0, 0 }, SVec3{ 555, 0, 0 }, SVec3{ 0, 0, 555 }, white);
+	OutApplication.AddQuad(SVec3{ 555, 555, 555 }, SVec3{ -555, 0, 0 }, SVec3{ 0, 0, -555 }, white);
+	OutApplication.AddQuad(SVec3{ 0, 0, 555 }, SVec3{ 555, 0, 0 }, SVec3{ 0, 555, 0 }, white);
+
+	OutApplication.Add(OHittableList::CreateBox({ 130, 0, 65 }, { 295, 165, 230 }, white));
+	OutApplication.Add(OHittableList::CreateBox({ 265, 0, 295 }, { 430, 330, 460 }, white));
+
+	auto camera = OutApplication.GetCamera();
+
+	camera->BackgroundColor = { 0, 0, 0 };
+	camera->DefocusAngle = 0.0f;
+	camera->FocusDist = 10.f;
+	camera->VFov = 40;
+	camera->LookFrom = { 278, 278, -800 };
+	camera->LookAt = { 278, 278, 0 };
+	camera->AspectRatio = 1.0;
+	camera->SamplesPerPixel = 200;
+	camera->MaxDepth = 50;
+	camera->ImageWidth = 600;
 }
 }

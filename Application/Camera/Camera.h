@@ -68,6 +68,7 @@ public:
 
 	double DefocusAngle = 0.f;
 	double FocusDist = 10.f;
+	SColor BackgroundColor = { 0.7,0.8,1.0};
 };
 
 

@@ -96,3 +96,12 @@ bool SAABB::Hit(const SRay& Ray, SInterval Interval) const
 	}
 	return true;
 }
+
+SAABB SAABB::Pad()
+{
+	const double delta = 1e-4;
+	const SInterval newX = (X.Size() >= delta ? X : X.Expand(delta));
+	const SInterval newY = (Y.Size() >= delta ? Y : Y.Expand(delta));
+	const SInterval newZ = (Z.Size() >= delta ? Z : Z.Expand(delta));
+	return SAABB(newX, newY, newZ);
+}

@@ -23,6 +23,8 @@ public:
 
 	SAABB GetBoundingBox() const override;
 
+	static shared_ptr<OHittableList> CreateBox(const SVec3& A, const SVec3& B, const shared_ptr<IMaterial>& Material);
+
 private:
 	std::vector<std::shared_ptr<IHittable>> Objects;
 	SAABB BoundingBox;
