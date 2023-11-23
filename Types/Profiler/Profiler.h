@@ -21,7 +21,7 @@
 		auto diff = thisEnd - _now;\
 		auto ms = std::chrono::duration<double, std::milli>(diff).count();\
 		auto time = std::to_string(ms);\
-		OProfiler::Get()->Log("- Execution time [" + _meta + _funcName + "]: " + time + " ms.");\
+		OProfiler::Get()->Log(SLogUtils::Format("[{}] Execution time [{}] {} ms", _meta, _funcName, time));\
 	});
 
 class OProfiler
@@ -38,6 +38,7 @@ public:
 
 	void Log(const std::string& Message)
 	{
+		LOG(Log, Message);
 		Logger.Log(Message);
 	}
 

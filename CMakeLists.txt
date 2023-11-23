@@ -50,6 +50,7 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Objects/Hittable/Quad/Quad.cpp
         Objects/Hittable/Quad/Quad.cpp
         Objects/Materials/DiffuseLight.h
+        Objects/Hittable/Translated/Translated.h
 )
 
 target_link_libraries(Raytracer Boost::boost)

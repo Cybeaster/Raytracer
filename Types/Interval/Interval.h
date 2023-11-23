@@ -58,3 +58,13 @@ struct SInterval
 
 	double Min, Max;
 };
+
+inline SInterval operator+(const SInterval& Interval, const double Offset)
+{
+	return SInterval(Interval.Min + Offset, Interval.Max + Offset);
+}
+
+inline SInterval operator+(const double Offset, const SInterval& Interval)
+{
+	return Interval + Offset;
+}

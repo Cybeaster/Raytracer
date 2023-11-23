@@ -1,13 +1,15 @@
 #include "PPMSerializer.h"
+
+#include "../Logger.h"
 #include "../../Application/Renderers/Renderer.h"
 #include "../../Types/Interval/Interval.h"
 #include "../../Utils/Math.h"
 
 #include <iostream>
 
-inline void OPPMSerializer::Serialize(const SFrameBuffer& Buffer)
+inline void OPPMSerializer::Serialize(const SFrameBuffer& Buffer, const string& FileName)
 {
-	std::ofstream outFile("image.ppm");
+	std::ofstream outFile(FileName + ".ppm");
 	outFile << "P3\n" << Buffer.Width << ' ' << Buffer.Height << "\n255\n";
 	auto buffer = Buffer.Data.get();
 	for (auto color : *buffer)
@@ -22,5 +24,5 @@ inline void OPPMSerializer::Serialize(const SFrameBuffer& Buffer)
 	}
 
 	outFile.close();
-	std::clog << "\nDone.\n";
+	LOG(Log, "Serialized to {}", FileName);
 }

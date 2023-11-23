@@ -1,11 +1,19 @@
 #pragma once
 #include "../Objects/Hittable/List/HittableList.h"
 #include "../Objects/Hittable/Sphere/Sphere.h"
+#include "../Types/Logger.h"
 #include "../Types/Math.h"
 #include "../Types/Types.h"
 #include "../Utils/Materials.h"
 
 #include "Camera/Camera.h"
+
+#include <iostream>
+
+namespace Scenes
+{
+struct OScene;
+}
 
 class ISerializer;
 class ORenderer;
@@ -22,16 +30,7 @@ public:
 		return Instance;
 	}
 
-
-	void AddSphere(const SVec3& Position, float Radius, std::shared_ptr<IMaterial> Material);
-	void AddMovingSphere(const SVec3& Position, const SVec3& SecondPosition, float Radius, std::shared_ptr<IMaterial> Material);
-
-	void AddQuad(const SVec3& Position, const SVec3& U, const SVec3& V, const std::shared_ptr<IMaterial>& Material);
-	void Add(const shared_ptr<OHittableList>& List);
-
-	OCamera
-	*
-	GetCamera() const
+	OCamera* GetCamera() const
 	{
 		return Camera.get();
 	}
@@ -41,10 +40,12 @@ public:
 		return World;
 	}
 
-private:
-	OApplication();
+	void AddScene(const string& Name, Scenes::OScene* Scene);
+	void RenderScene(const string& Name);
 
-	void Init();
+private:
+	void InitRenderer();
+	void InitScene();
 	void Render();
 
 	std::shared_ptr<OCamera> Camera;
@@ -52,7 +53,8 @@ private:
 	std::shared_ptr<ISerializer> Serializer;
 
 	OHittableList World;
-
+	Scenes::OScene* CurrentScene = nullptr;
+	unordered_map<string, Scenes::OScene*> AllScenes;
 	static OApplication* Instance;
 };
 

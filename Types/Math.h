@@ -2,6 +2,7 @@
 
 #include <boost/qvm.hpp>
 #include <cstdint>
+#include "Types.h"
 
 
 template<typename T, int D>

@@ -26,6 +26,13 @@ public:
 	{
 	}
 
+	ORenderer() = default;
+
+	void Init(const uint32_t FBWidth, const uint32_t FBHeight)
+	{
+		Buffer = { std::make_unique<std::vector<SColor>>(FBWidth * FBHeight), FBWidth, FBHeight };
+	}
+
 
 	virtual const SFrameBuffer& Draw(const std::shared_ptr<IRaytracer>& Raytracer, const IHittable& World, int32_t SamplesPerPixel) =0;
 

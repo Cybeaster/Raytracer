@@ -4,6 +4,8 @@
 
 #include "AABB.h"
 
+#include "../../Utils/Math.h"
+
 
 SAABB::SAABB(const SInterval& iX, const SInterval& iY, const SInterval& iZ)
 	: X(iX)

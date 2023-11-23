@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Objects/Ray.h"
+#include "../../Utils/Math.h"
 #include "../Interval/Interval.h"
 
 
@@ -18,9 +19,18 @@ public:
 	bool Hit(const SRay& Ray, SInterval Interval) const;
 	SAABB Pad();
 
-private:
 	SInterval X, Y, Z;
 };
 
+inline SAABB operator+(const SAABB& Box, const SVec3& Offset)
+{
+	using namespace Utils::Math;
+	return SAABB(Box.X + GetX(Offset), Box.Y + GetY(Offset), Box.Z + GetZ(Offset));
+}
+
+inline SAABB operator+(const SVec3& Offset, const SAABB& Box)
+{
+	return Box + Offset;
+}
 
 

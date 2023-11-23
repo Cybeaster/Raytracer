@@ -4,4 +4,5 @@
 int main()
 {
 	auto application = OApplication::Get();
+	application->RenderScene("CornellBox");
 }

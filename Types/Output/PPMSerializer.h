@@ -14,7 +14,14 @@ public:
 	{
 	}
 
-	void Serialize(const SFrameBuffer& Buffer) override;
+	OPPMSerializer() = default;
+
+	virtual void Init(const int32_t Samples) override
+	{
+		SamplesPerPixel = Samples;
+	}
+
+	void Serialize(const SFrameBuffer& Buffer, const string& FileName) override;
 
 private:
 	int32_t SamplesPerPixel;

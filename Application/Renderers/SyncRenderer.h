@@ -12,6 +12,8 @@ public:
 	{
 	}
 
+	OSyncRenderer() = default;
+
 	virtual const SFrameBuffer& Draw(const std::shared_ptr<IRaytracer>& Raytracer, const IHittable& World, int32_t SamplesPerPixel) override
 	{
 		PROFILE();
