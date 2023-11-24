@@ -1,5 +1,4 @@
 #include "OApplication.h"
-
 #include "../Objects/Hittable/Quad/Quad.h"
 #include "../Objects/Materials/Dielectric.h"
 #include "../Objects/Hittable/Sphere/Sphere.h"
@@ -25,7 +24,7 @@ void OApplication::AddScene(const string& Name, Scenes::OScene* Scene)
 	AllScenes[Name] = Scene;
 }
 
-void OApplication::RenderScene(const string& Name)
+void OApplication::RenderScene(const string& Name, ECameraPresets CameraPreset)
 {
 	if (AllScenes.contains(Name) == false)
 	{
@@ -37,18 +36,18 @@ void OApplication::RenderScene(const string& Name)
 	CurrentScene = AllScenes[Name];
 
 	InitRenderer();
-	InitScene();
+	InitScene(CameraPreset);
 	Render();
 
 	LOG(Log, "Rendered scene: {}", CurrentScene->SceneName);
 }
 
-void OApplication::InitScene()
+void OApplication::InitScene(ECameraPresets CameraPreset)
 {
 	CurrentScene->SetObjects(&World, Camera.get());
 	CurrentScene->InitScene();
 
-	Camera->Init();
+	Camera->Init(CameraPreset);
 	Serializer->Init(Camera->SamplesPerPixel);
 	Renderer->Init(Camera->ImageWidth, Camera->ImageHeight);
 }

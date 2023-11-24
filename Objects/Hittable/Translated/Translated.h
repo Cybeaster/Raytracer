@@ -31,7 +31,7 @@ public:
 
 	SAABB GetBoundingBox() const override
 	{
-		return SAABB(Object->GetBoundingBox().GetMin() + Offset, Object->GetBoundingBox().GetMax() + Offset);
+		return BoundingBox;
 	}
 
 private:

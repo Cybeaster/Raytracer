@@ -6,10 +6,20 @@
 
 class SRay;
 
+enum class ECameraPresets
+{
+	Low,
+	Medium,
+	High,
+	Ultra,
+	Insane
+};
+
+
 class OCamera final : public IRaytracer
 {
 public:
-	void Init();
+	void Init(ECameraPresets Preset);
 	SRay GetRay(float U, float V) const;
 
 	auto GetFocalLength() const
@@ -25,6 +35,7 @@ public:
 	SColor RayColor(const SRay& Ray, const IHittable& World);
 	SVec3 PixelSampleSquare() const;
 	SVec3 DefocusDiskSample() const;
+	void SetCameraPreset(ECameraPresets Preset);
 
 private:
 	SColor RayColor(const SRay& Ray, const class IHittable& World, uint32_t Depth);
@@ -68,7 +79,7 @@ public:
 
 	double DefocusAngle = 0.f;
 	double FocusDist = 10.f;
-	SColor BackgroundColor = { 0.7,0.8,1.0};
+	SColor BackgroundColor = { 0.7, 0.8, 1.0 };
 };
 
 

@@ -13,9 +13,10 @@
 #include <thread>
 
 
-void OCamera::Init()
+void OCamera::Init(ECameraPresets Preset)
 {
 	using namespace Utils::Math;
+	SetCameraPreset(Preset);
 
 	// Camera basic parameters
 	CameraCenter = LookFrom;
@@ -113,4 +114,34 @@ SVec3 OCamera::DefocusDiskSample() const
 	return GetCameraCenter() + (DefocusDiskU * a[0]) + (DefocusDiskV * a[1]);
 }
 
-
+void OCamera::SetCameraPreset(ECameraPresets Preset)
+{
+	switch (Preset)
+	{
+	case ECameraPresets::Low:
+		ImageWidth = 200;
+		SamplesPerPixel = 50;
+		MaxDepth = 5;
+		break;
+	case ECameraPresets::Medium:
+		ImageWidth = 400;
+		SamplesPerPixel = 100;
+		MaxDepth = 25;
+		break;
+	case ECameraPresets::High:
+		ImageWidth = 600;
+		SamplesPerPixel = 250;
+		MaxDepth = 50;
+		break;
+	case ECameraPresets::Ultra:
+		ImageWidth = 700;
+		SamplesPerPixel = 500;
+		MaxDepth = 50;
+		break;
+	case ECameraPresets::Insane:
+		ImageWidth = 800;
+		SamplesPerPixel = 10000;
+		MaxDepth = 40;
+		break;
+	}
+}

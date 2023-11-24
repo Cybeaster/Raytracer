@@ -51,6 +51,11 @@ add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Applic
         Objects/Hittable/Quad/Quad.cpp
         Objects/Materials/DiffuseLight.h
         Objects/Hittable/Translated/Translated.h
+        Objects/Hittable/YRotated/YRotated.h
+        Objects/Hittable/YRotated/YRotated.cpp
+        Objects/Hittable/Volumes/ConstantMediumVolume.h
+        Objects/Materials/Isotropic.h
+        Objects/Hittable/Volumes/ConstantMediumVolume.cpp
 )
 
 target_link_libraries(Raytracer Boost::boost)

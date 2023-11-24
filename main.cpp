@@ -1,8 +1,12 @@
 #include <iostream>
+
+
+#define DEBUG 1
+
 #include "Application/OApplication.h"
 
 int main()
 {
-	auto application = OApplication::Get();
-	application->RenderScene("CornellBox");
+	const auto application = OApplication::Get();
+	application->RenderScene("ManyObjectsSmoke", ECameraPresets::Insane);
 }

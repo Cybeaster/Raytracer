@@ -4,6 +4,10 @@
 #include <memory>
 #include <ostream>
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 #define TEXT(Arg) \
 L##Arg
 
@@ -16,13 +20,25 @@ enum class ELogType
 };
 
 #define LOG(LogType, String, ...) \
-	SLogUtils::Log(SLogUtils::Format(String, ##__VA_ARGS__), ELogType::LogType);
+SLogUtils::Log(SLogUtils::Format(String, ##__VA_ARGS__), ELogType::LogType, false);
+
+#define DLOG(LogType, String, ...) \
+SLogUtils::Log(SLogUtils::Format(String, ##__VA_ARGS__), ELogType::LogType, true);
+
+
+#define TO_STRING(Argument) \
+	SLogUtils::ToString(Argument)
 
 struct SLogUtils
 {
 	template<typename Object>
-	static void Log(const Object& String, ELogType Type = ELogType::Log) noexcept
+	static void Log(const Object& String, ELogType Type = ELogType::Log, const bool Debug = false) noexcept
 	{
+		if (DEBUG == false && Debug == true)
+		{
+			return;
+		}
+
 		switch (Type)
 		{
 		case ELogType::Log:
@@ -61,22 +77,28 @@ struct SLogUtils
 	}
 
 	template<typename... ArgTypes>
-	static string Format(std::string_view Str, ArgTypes&&... Args)
+	static std::string Format(std::string_view Str, ArgTypes&&... Args)
 	{
 		try
 		{
-			return std::vformat(Str, std::make_format_args(Args...));
+			return std::vformat(Str, std::make_format_args(std::forward<ArgTypes>(Args)...));
 		}
 		catch (const std::format_error& error)
 		{
-			return error.what() + string(Str);
+			return std::string(error.what()) + std::string(Str);
 		}
 	}
+
 
 	template<typename... ArgTypes>
 	static void Printf(const string& Str, ArgTypes&&... Args) noexcept
 	{
 		std::printf(Str.c_str(), ToCString(Args)...);
+	}
+
+	static string ToString(const SVec3& Vector)
+	{
+		return Format("[{},{},{}]", Utils::Math::GetX(Vector), Utils::Math::GetY(Vector), Utils::Math::GetZ(Vector));
 	}
 };
 

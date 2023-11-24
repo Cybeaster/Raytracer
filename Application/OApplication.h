@@ -41,11 +41,11 @@ public:
 	}
 
 	void AddScene(const string& Name, Scenes::OScene* Scene);
-	void RenderScene(const string& Name);
+	void RenderScene(const string& Name, ECameraPresets CameraPreset = ECameraPresets::Medium);
 
 private:
 	void InitRenderer();
-	void InitScene();
+	void InitScene(ECameraPresets CameraPreset);
 	void Render();
 
 	std::shared_ptr<OCamera> Camera;

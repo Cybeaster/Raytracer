@@ -195,20 +195,24 @@ inline auto RandomUnitInDisk()
 	}
 }
 
-inline auto GetX(const SVec3& Value)
+inline auto& GetX(const SVec3& Value)
 {
 	return Value.a[0];
 }
 
 
-inline auto GetY(const SVec3& Value)
+inline auto& GetY(const SVec3& Value)
 {
 	return Value.a[1];
 }
 
-inline auto GetZ(const SVec3& Value)
+inline auto& GetZ(const SVec3& Value)
 {
 	return Value.a[2];
 }
 
+inline auto& GetIdx(const SVec3& Value, const int32_t Idx)
+{
+	return Value.a[Idx];
+}
 }
