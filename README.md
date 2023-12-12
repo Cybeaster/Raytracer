@@ -10,8 +10,8 @@ First, the scene is created and setup in `OApplication` class.
 We may want to serialize the scene to different files or use different renderers and raytracers. For this
 purpose `OApplication` has pointers to all of them.
 
-`ORenderer` is responsible for rendering the scene into a frame buffer. It receives and raytracer to build the scene.
-Once the scene is build it gives the buffer to onto the next stage - serialization (`OPPMSerializer` in this case).
+`ORenderer` is responsible for rendering the scene into a frame buffer. It receives raytracer to build the scene.
+Once the scene is built it gives the buffer to onto the next stage - serialization (`OPPMSerializer` in this case).
 
 Each type of the material inherits from the base class SMaterial and implements the virtual function IMaterial::Scatter.
 
