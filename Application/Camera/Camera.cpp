@@ -26,7 +26,7 @@ void OCamera::Init(ECameraPresets Preset)
 	CameraU = Normalize(Cross(Up, CameraW));
 	CameraV = Cross(CameraW, CameraU);
 
-	const auto theta = Utils::Math::DegreesToRaians(VFov);
+        const auto theta = Utils::Math::DegreesToRadians(VFov);
 	const auto h = tan(theta / 2);
 
 	//Viewport parameters
@@ -47,7 +47,7 @@ void OCamera::Init(ECameraPresets Preset)
 		GetCameraCenter() - (FocusDist * CameraW) - (viewportU / 2) - (viewportV / 2);
 	PixelZeroLoc = ViewportUpperLeft + 0.5 * (PixelDeltaU + PixelDeltaV);
 
-	const auto defocuseRadius = FocusDist * tan(DegreesToRaians(DefocusAngle / 2));
+        const auto defocuseRadius = FocusDist * tan(DegreesToRadians(DefocusAngle / 2));
 	DefocusDiskU = defocuseRadius * CameraU;
 	DefocusDiskV = defocuseRadius * CameraV;
 }
@@ -110,8 +110,10 @@ SVec3 OCamera::PixelSampleSquare() const
 
 SVec3 OCamera::DefocusDiskSample() const
 {
-	const auto [a] = Utils::Math::RandomUnitInDisk();
-	return GetCameraCenter() + (DefocusDiskU * a[0]) + (DefocusDiskV * a[1]);
+        const auto diskSample = Utils::Math::RandomUnitInDisk();
+        return GetCameraCenter() +
+                (DefocusDiskU * Utils::Math::GetX(diskSample)) +
+                (DefocusDiskV * Utils::Math::GetY(diskSample));
 }
 
 void OCamera::SetCameraPreset(ECameraPresets Preset)

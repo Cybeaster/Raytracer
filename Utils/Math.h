@@ -44,9 +44,9 @@ auto Squared(T Value)
 	return Value * Value;
 }
 
-inline auto DegreesToRaians(auto Degrees)
+inline auto DegreesToRadians(auto Degrees)
 {
-	return Degrees * (PI / 180.0f);
+        return Degrees * (PI / 180.0f);
 }
 
 

@@ -5,7 +5,7 @@ ORotatedY::ORotatedY(shared_ptr<IHittable> Object, const double Angle)
 	: RotatedObject(Object)
 {
 	using namespace Utils::Math;
-	auto radians = DegreesToRaians(Angle);
+        auto radians = DegreesToRadians(Angle);
 	SinTheta = sin(radians);
 	CosTheta = cos(radians);
 
