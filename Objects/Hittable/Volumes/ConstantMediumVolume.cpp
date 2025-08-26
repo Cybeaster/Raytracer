@@ -10,7 +10,7 @@ OConstantMediumVolume::OConstantMediumVolume(const shared_ptr<IHittable>& _Bound
 OConstantMediumVolume::OConstantMediumVolume(const shared_ptr<IHittable>& _Boundary, const double _Density, const SVec3& Color)
 	: Boundary(_Boundary)
 	, NegativeInvertedDensity(-1.0 / _Density)
-	, PhaseFunction(make_shared<OIsotropic>(Color))
+	, PhaseFunction(make_shared<OIsotropic>(SColor(Color)))
 {
 }
 

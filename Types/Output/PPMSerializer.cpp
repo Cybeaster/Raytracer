@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-inline void OPPMSerializer::Serialize(const SFrameBuffer& Buffer, const string& FileName)
+void OPPMSerializer::Serialize(const SFrameBuffer& Buffer, const string& FileName)
 {
 	std::ofstream outFile(FileName + ".ppm");
 	outFile << "P3\n" << Buffer.Width << ' ' << Buffer.Height << "\n255\n";

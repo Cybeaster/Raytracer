@@ -7,12 +7,12 @@
 class OIsotropic : public IMaterial
 {
 public:
-	OIsotropic(shared_ptr<ITexture> _Albedo)
+	explicit OIsotropic(const shared_ptr<ITexture>& _Albedo)
 		: Albedo(_Albedo)
 	{
 	}
-
-	OIsotropic(const SColor& Color)
+	
+	explicit OIsotropic(const SColor& Color)
 		: Albedo(make_shared<OSolidColor>(Color))
 	{
 	}

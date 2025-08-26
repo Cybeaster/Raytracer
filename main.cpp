@@ -8,5 +8,5 @@
 int main()
 {
 	const auto application = OApplication::Get();
-	application->RenderScene("ManyObjectsSmoke", ECameraPresets::Insane);
+	application->RenderScene("CornellBox", ECameraPresets::Medium);
 }

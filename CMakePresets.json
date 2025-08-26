@@ -1,0 +1,22 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "x64-windows-vcpkg",
+      "displayName": "Windows x64 (vcpkg manifest)",
+      "description": "Configure using vcpkg toolchain and manifest dependencies",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build-debug",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_FEATURE_FLAGS": "manifests,versions",
+        "CMAKE_CXX_STANDARD": "20"
+      }
+    }
+  ]
+}
