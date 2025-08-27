@@ -19,6 +19,10 @@ public:
 	bool Hit(const SRay& Ray, SInterval Interval) const;
 	SAABB Pad();
 
+	// Return min/max corners as vectors.
+	SVec3 Min() const { return SVec3{ static_cast<float>(X.Min), static_cast<float>(Y.Min), static_cast<float>(Z.Min) }; }
+	SVec3 Max() const { return SVec3{ static_cast<float>(X.Max), static_cast<float>(Y.Max), static_cast<float>(Z.Max) }; }
+
 	SInterval X, Y, Z;
 };
 

@@ -13,6 +13,11 @@ project(Raytracer)
 
 set(CMAKE_CXX_STANDARD 20)
 
+# Ensure new behavior regarding FindBoost removal under vcpkg wrapper.
+if(POLICY CMP0167)
+    cmake_policy(SET CMP0167 NEW)
+endif()
+
 # Prefer Boost via CONFIG mode (vcpkg), fall back to module, then fallback to header-only include discovery
 find_package(Boost CONFIG QUIET COMPONENTS qvm)
 
@@ -21,7 +26,7 @@ if(NOT Boost_FOUND)
 endif()
 
 if(NOT Boost_FOUND)
-    # Try to locate Boost headers installed by vcpkg manifest mode in common locations
+    # Try to locate Boost headers installed by vcpkg manifest mode in common locations on windows
     set(_VCPKG_TRIPLETS x64-windows x86-windows arm64-windows)
     set(_BOOST_CANDIDATE_DIRS)
     foreach(_t ${_VCPKG_TRIPLETS})
@@ -71,68 +76,62 @@ if(NOT Boost_FOUND)
     )
 endif()
 
-add_executable(Raytracer main.cpp Objects/Ray.h Types/Math.h Types/Math.h Application/OApplication.cpp Application/OApplication.h Application/Camera/Camera.cpp Application/Camera/Camera.h Objects/Hittable/Sphere/Sphere.cpp Objects/Hittable/Sphere/Sphere.h Utils/Math.h
-        Types/Color.h
-        Objects/Hittable/Hittable.h
-        Utils/Exceptions.h
-        Objects/Hittable/List/HittableList.h
-        Types/Types.h
-        Types/Interval/Interval.h
-        Types/Interval/Interval.cpp
-        Objects/Materials/Material.h
-        Objects/Materials/Lambertian.h
-        Objects/Materials/Metal.h
-        Objects/Materials/Dielectric.h
-        Application/Scenes/Scenes.h
-        Utils/Materials.h
-        Types/Color.cpp
-        Types/Color.cpp
-        Application/Renderers/SyncRenderer.h
-        Application/Renderers/Renderer.h
-        Application/Renderers/AsyncRenderer.h
-        Application/Renderers/AsyncRenderer.h
-        Types/Output/Serializable.h
-        Types/Output/PPMSerializer.h
-        Types/Output/PPMSerializer.cpp
-        Application/Camera/Raytracer.h
-        Types/Logger.h
-        Types/Profiler/Profiler.h
-        Types/ExitHelper.h
-        Types/AABB/AABB.cpp
-        Types/AABB/AABB.h
-        Objects/Hittable/List/HittableList.cpp
-        Objects/Hittable/List/HittableList.h
-        Objects/Hittable/BVH/BVHNode.cpp
-        Objects/Hittable/BVH/BVHNode.h
-        Objects/Textures/Texture.h
-        Objects/Textures/CheckerTexture.h
-        Utils/ImageLoader/STBImage.cpp
-        Utils/ImageLoader/STBImage.h
-        Objects/Textures/ImageTexture.h
-        Utils/Algorithms/Perlin.cpp
-        Utils/Algorithms/Perlin.h
-        Objects/Textures/NoiseTexture.h
-        Objects/Hittable/Quad/Quad.h
-        Objects/Hittable/Quad/Quad.cpp
-        Objects/Hittable/Quad/Quad.cpp
-        Objects/Materials/DiffuseLight.h
-        Objects/Hittable/Translated/Translated.h
-        Objects/Hittable/YRotated/YRotated.h
-        Objects/Hittable/YRotated/YRotated.cpp
-        Objects/Hittable/Volumes/ConstantMediumVolume.h
-        Objects/Materials/Isotropic.h
-        Objects/Hittable/Volumes/ConstantMediumVolume.cpp
+file(GLOB_RECURSE RAYTRACER_SRC CONFIGURE_DEPENDS
+        "${CMAKE_SOURCE_DIR}/Application/**/*.cpp"
+        "${CMAKE_SOURCE_DIR}/Application/*.cpp"
+        "${CMAKE_SOURCE_DIR}/Objects/**/*.cpp"
+        "${CMAKE_SOURCE_DIR}/Types/**/*.cpp"
+        "${CMAKE_SOURCE_DIR}/Utils/**/*.cpp"
 )
 
-# Link Boost imported targets when provided by CONFIG mode (e.g., vcpkg)
+# Optionally collect headers for IDE visibility (not required to build)
+file(GLOB_RECURSE RAYTRACER_HEADERS CONFIGURE_DEPENDS
+        "${CMAKE_SOURCE_DIR}/Application/**/*.h*"
+        "${CMAKE_SOURCE_DIR}/Objects/**/*.h*"
+        "${CMAKE_SOURCE_DIR}/Types/**/*.h*"
+        "${CMAKE_SOURCE_DIR}/Utils/**/*.h*"
+)
+
+# Exclude tests from main target sources
+# Only gather sources from your tests directory
+file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/Test/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Test/*.cxx"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Test/*.cc"
+)
+
+# Build core library once; link it where needed
+add_library(raytracer_core STATIC)
+target_sources(raytracer_core PRIVATE ${RAYTRACER_SRC} ${RAYTRACER_HEADERS}
+)
+
+target_include_directories(raytracer_core PUBLIC
+        ${CMAKE_SOURCE_DIR} # project includes
+)
+# Link Boost to core so all dependents inherit it
 if(TARGET Boost::boost)
-    target_link_libraries(Raytracer PRIVATE Boost::boost)
+    target_link_libraries(raytracer_core PUBLIC Boost::boost)
 endif()
 if(TARGET Boost::qvm)
-    target_link_libraries(Raytracer PRIVATE Boost::qvm)
+    target_link_libraries(raytracer_core PUBLIC Boost::qvm)
+endif()
+if(Boost_INCLUDE_DIRS)
+    target_include_directories(raytracer_core PUBLIC ${Boost_INCLUDE_DIRS})
 endif()
 
-# Fallback for module mode: add include directories
-if(Boost_INCLUDE_DIRS)
-    target_include_directories(Raytracer PRIVATE ${Boost_INCLUDE_DIRS})
+# Main app: just main.cpp, link the core
+add_executable(Raytracer main.cpp)
+target_link_libraries(Raytracer PRIVATE raytracer_core)
+
+option(TESTING_ENABLED "Build tests" ON)
+if(TESTING_ENABLED)
+    if(TEST_SOURCES)
+        add_executable(RaytracerTests ${TEST_SOURCES})
+        target_link_libraries(RaytracerTests PRIVATE raytracer_core)
+        include(CTest)
+        enable_testing()
+        add_test(NAME AllTests COMMAND RaytracerTests)
+    else()
+        message(STATUS "No test sources found in '${CMAKE_CURRENT_SOURCE_DIR}/tests'; skipping RaytracerTests target.")
+    endif()
 endif()
